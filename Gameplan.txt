@@ -1,0 +1,70 @@
+Mini Blog
+
+Front-End will come after Back-End
+
+USERS -
+Profile (Second Website)
+Profile Picture/Name/Blogs/Bookmarks/Drafts
+
+Edit/Delete/Create
+Your average CRUD
+
+Drafts
+Won't be published, saves all the typed in data and save into database.
+
+Bookmarks
+Each blog will have a save function, which will save the blog id to the User in database
+Display all bookmarks in profile
+
+Authentication/Registration/Authorization
+Regular Authentication + JWT Tokens
+
+Send Email Function
+Allow sending a message to user in profile. (It will send to the user's email that was used in registration)
+
+COMMENTS -
+Normal commenting function
+A dropdown comment section
+
+We will count the amount of documents (500 in this case).
+Fetch 10-20 results, and allow show more, also sort by date.
+
+Comments(500) - Click to Open
+@username-214810 (Link to profile) - Timestamp
+(comment)
+
+
+POSTS -
+Profile Name/Profile Picture/Social Media links/URL Share
+Selectable Categories (Concepts, Life Tips, ELI5, Business Ad, etc.)
+Text Editor - 500-1000 characters limit
+
+
+Data models:
+USERS
+{
+    _id,
+    full_name,
+    username,
+    password,
+    email,
+    profile picture, optional
+    blogs, REF
+}
+
+COMMENTS
+{
+    _id,
+    author, REF
+    timestamp,
+    blog_id, REF
+}
+
+POSTS
+{
+    _id,
+    title,
+    text,
+    category,
+    author_id, REF
+}
