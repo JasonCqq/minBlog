@@ -7,6 +7,7 @@ const PostSchema = new Schema({
   category: { type: String, required: true },
   author_id: { type: Schema.Types.ObjectId, ref: "User", required: true },
   published: { type: Boolean, required: true },
+  timestamp: { type: Date, required: true },
 });
 
 module.exports = mongoose.model("Post", PostSchema);

@@ -35,7 +35,7 @@ Comments(500) - Click to Open
 
 
 POSTS -
-Profile Name/Profile Picture/Social Media links/URL Share
+Profile Name/Social Media links/URL Share
 Selectable Categories (Concepts, Life Tips, ELI5, Business Ad, etc.)
 Text Editor - 500-1000 characters limit
 
@@ -48,8 +48,9 @@ USERS
     username,
     password,
     email,
-    profile picture, optional
     blogs, REF
+    bookmarks, REF
+    drafts, REF
 }
 
 COMMENTS
@@ -67,4 +68,5 @@ POSTS
     text,
     category,
     author_id, REF
+    draft/published?
 }
