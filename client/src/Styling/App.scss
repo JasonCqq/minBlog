@@ -8,12 +8,14 @@
   align-items: center;
   justify-content: center;
   gap: 10vw;
-  padding-top: 10vh;
+  padding-top: 15vh;
+  border-bottom: 1px solid black;
 
   .main-welcome {
     display: flex;
     flex-direction: column;
     gap: 5vh;
+    color: white;
 
     .heading {
       font-size: 3rem;
@@ -34,15 +36,20 @@
     .form-label {
       font-size: 2rem;
       margin: auto;
+      color: white;
     }
 
     .main-form-button {
-      border: 1px solid black;
+      border: none;
       border-radius: 5px;
       padding: 10px 20px;
-      background: #0059dd;
+      background: black;
       color: white;
       font-weight: bold;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     input {
@@ -60,6 +67,84 @@
   }
 }
 
+.main-blogs {
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  align-items: center;
+
+  .line {
+    height: 1px;
+    background-color: black;
+    width: 50%;
+  }
+
+  .main-blogs-heading {
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5vh;
+    font-size: 2rem;
+  }
+
+  .blogs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 50px;
+    width: 80%;
+    padding: 50px 20px;
+    height: 50vh;
+  }
+}
+
+.main-description {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5vh;
+
+  .description-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10vw;
+    margin-top: 7vh;
+
+    .description-video {
+      background-color: gray;
+      height: 40vh;
+      width: 35vw;
+    }
+
+    .description-points {
+      font-size: 1.75rem;
+      letter-spacing: 2px;
+      display: flex;
+      flex-direction: column;
+      gap: 4vh;
+    }
+  }
+
+  .description-heading {
+    font-size: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 .main-message {
-  height: 250vh;
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: rgb(0, 0, 0);
+
+  .main-message-flex {
+    display: flex;
+    color: white;
+    gap: 5vw;
+    font-size: 1.5rem;
+  }
 }

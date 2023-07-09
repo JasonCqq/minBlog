@@ -7,9 +7,15 @@ function Nav() {
       <h1 id="main-logo">minBlog</h1>
 
       <ul className="main-right">
-        <li>Home</li>
-        <li>Blogs</li>
-        <li>Login</li>
+        <a href="#" className="main-ref">
+          Home
+        </a>
+        <a href="#" className="main-ref">
+          Blogs
+        </a>
+        <a href="#" className="main-ref">
+          Login
+        </a>
       </ul>
     </nav>
   );

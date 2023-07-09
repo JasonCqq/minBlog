@@ -5,10 +5,11 @@
   position: fixed;
   height: 10vh;
   width: 100vw;
+  background-color: black;
 
   #main-logo {
     margin-left: 15vw;
-    color: black;
+    color: white;
   }
 }
 
@@ -19,4 +20,11 @@
   margin-left: auto;
   margin-right: 15vw;
   gap: 5vw;
+
+  .main-ref {
+    color: white;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
 }

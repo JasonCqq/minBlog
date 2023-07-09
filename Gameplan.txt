@@ -1,10 +1,9 @@
-Mini Blog
-
-Front-End will come after Back-End
+NOTES -
+*REMEMBER TO SANITIZE AND CHECK URLS
 
 USERS -
 Profile (Second Website)
-Profile Picture/Name/Blogs/Bookmarks/Drafts
+Name/Blogs/Bookmarks/Drafts
 
 Edit/Delete/Create
 Your average CRUD
