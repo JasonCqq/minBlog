@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
-const { body, validationResult } = require("express-validator");
 const User = require("../models/userModel");
+const { body, validationResult } = require("express-validator");
 
 exports.create_user = [
   body("full_name").trim().escape(),
@@ -22,20 +22,17 @@ exports.create_user = [
   body("email").trim().isEmail().escape(),
 
   asyncHandler(async (req, res) => {
+    console.log(req.body);
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      const errorMessages = errors.array().map((error) => error.msg);
-      res.status(400).json({ errors: errorMessages });
+      res.json({ errors: errors.array().map((error) => error.msg) });
     } else {
       const user = new User({
         full_name: req.body.full_name,
         username: req.body.username,
         password: req.body.password,
         email: req.body.email,
-        blogs: {},
-        bookmarks: {},
-        drafts: {},
       });
       await user.save();
       res.redirect(`/user/${user._id}`);
