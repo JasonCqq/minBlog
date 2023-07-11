@@ -1,8 +1,7 @@
 import React from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
-import App from "./App.tsx";
-import Nav from "./Nav.tsx";
-import uniqid from "uniqid";
+import App from "./App";
+import Nav from "./Nav";
 
 const RouteSwitch = () => {
   return (

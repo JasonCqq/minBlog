@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const post_controller = require("../controllers/postController");
 
-router.get("/", function (req, res, next) {
+router.get("/", function (req, res) {
   res.send("respond with a resource");
 });
 

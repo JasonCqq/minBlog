@@ -3,11 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./Styling/index.scss";
 import RouteSwitch from "./Components/Routeswitch";
 import reportWebVitals from "./reportWebVitals";
+import Context from "./Components/GlobalUser";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 root.render(
   <React.StrictMode>
-    <RouteSwitch />
+    <Context>
+      <RouteSwitch />
+    </Context>
   </React.StrictMode>
 );
 

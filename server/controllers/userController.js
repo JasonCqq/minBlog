@@ -83,7 +83,16 @@ exports.login_user = [
         id: user._id,
         username: user.username,
       };
-      return res.json({ success: true, user: userData });
+      req.session.user = userData;
+      return res.json({ success: true, user: req.session.user });
     })(req, res, next);
   },
 ];
+
+exports.logout_user = asyncHandler(async (req, res) => {
+  res.clearCookie("userID", {
+    path: "/",
+  });
+  req.session.destroy();
+  return res.json({ success: true });
+});

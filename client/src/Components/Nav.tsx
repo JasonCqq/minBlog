@@ -10,12 +10,22 @@ interface LoginData {
 }
 
 function Nav() {
+  axios.defaults.withCredentials = true;
   const { user, setUser } = useGlobalContext();
   const [login, setLogin] = useState<boolean>();
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
   });
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/user/login").then((res) => {
+      const data = res.data;
+      if (data.success === true) {
+        setUser(data.user);
+      }
+    });
+  }, []);
 
   const loginForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,10 +41,21 @@ function Nav() {
       })
       .then((res) => {
         const data = res.data;
-        console.log(data);
         if (data.success) {
           setUser(data.user);
-          console.log(data);
+          setLogin(false);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const logOut = () => {
+    axios
+      .post("http://localhost:3000/user/logout")
+      .then((res) => {
+        const data = res.data;
+        if (data.success === true) {
+          setUser(null);
         }
       })
       .catch((err) => console.error(err));
@@ -58,9 +79,22 @@ function Nav() {
           <a href="#" className="main-ref" onClick={() => console.log(user)}>
             Blogs
           </a>
-          <a href="#" className="main-ref" onClick={() => setLogin(!login)}>
-            Login
-          </a>
+
+          {user ? (
+            <>
+              <a href="#" className="main-ref">
+                Profile
+              </a>
+              <a href="#" className="main-ref" onClick={() => logOut()}>
+                Logout
+              </a>
+              <p style={{ color: "white" }}>{user.username}</p>
+            </>
+          ) : (
+            <a href="#" className="main-ref" onClick={() => setLogin(!login)}>
+              Login
+            </a>
+          )}
         </ul>
       </nav>
 

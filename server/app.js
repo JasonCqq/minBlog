@@ -3,6 +3,7 @@ var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
+var bodyParser = require("body-parser");
 var logger = require("morgan");
 var cors = require("cors");
 
@@ -27,11 +28,26 @@ async function main() {
 main().catch((err) => console.log(err));
 
 var app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:3006",
+    methods: ["GET", "POST"],
+    credentials: true,
+  }),
+);
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(
   session({
+    key: "userID",
     secret: `${process.env.SECRET_KEY}`,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    cookie: {
+      expires: 30 * 24 * 60 * 60 * 1000,
+    },
   }),
 );
 
@@ -46,11 +62,9 @@ passport.use(
       bcrypt.compare(password, user.password, (err, res) => {
         if (res) {
           // passwords match! log user in
-          console.log("test1");
           return done(null, user);
         } else {
           // passwords do not match!
-          console.log("test2");
           return done(null, false, { message: "Incorrect password" });
         }
       });
@@ -79,7 +93,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/user", userRouter);
