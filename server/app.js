@@ -6,6 +6,13 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
 
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcrypt");
+
+const User = require("./models/userModel");
+
 var indexRouter = require("./routes");
 var userRouter = require("./routes/user");
 var postRouter = require("./routes/post");
@@ -20,6 +27,52 @@ async function main() {
 main().catch((err) => console.log(err));
 
 var app = express();
+app.use(
+  session({
+    secret: `${process.env.SECRET_KEY}`,
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
+
+//Login
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await User.findOne({ username: username });
+      if (!user) {
+        return done(null, false, { message: "Incorrect username" });
+      }
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (res) {
+          // passwords match! log user in
+          console.log("test1");
+          return done(null, user);
+        } else {
+          // passwords do not match!
+          console.log("test2");
+          return done(null, false, { message: "Incorrect password" });
+        }
+      });
+    } catch (e) {
+      return done(e);
+    }
+  }),
+);
+
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+passport.deserializeUser(async function (id, done) {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(logger("dev"));
 app.use(express.json());

@@ -1,6 +1,8 @@
 NOTES -
 *SANITIZE URLS
 *ADD ERROR HANDLING ON SIGN UP FORM, ADD REDIRECTING AFTER SUBMISSION
+*JWT Tokens
+*Email/Username existing
 
 USERS -
 Profile (Second Website)

@@ -1,6 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
+const passport = require("passport");
 
 exports.create_user = [
   body("full_name").trim().escape(),
@@ -22,20 +24,25 @@ exports.create_user = [
   body("email").trim().isEmail().escape(),
 
   asyncHandler(async (req, res) => {
-    console.log(req.body);
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       res.json({ errors: errors.array().map((error) => error.msg) });
     } else {
-      const user = new User({
-        full_name: req.body.full_name,
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email,
+      bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+        if (err) {
+          return res.status(500).json({ error: "Error hashing password" });
+        }
+
+        const user = new User({
+          full_name: req.body.full_name,
+          username: req.body.username,
+          password: hashedPassword,
+          email: req.body.email,
+        });
+        await user.save();
+        res.redirect(`/user/${user._id}`);
       });
-      await user.save();
-      res.redirect(`/user/${user._id}`);
     }
   }),
 ];
@@ -49,3 +56,34 @@ exports.view_user = asyncHandler(async (req, res) => {
     blogs: user.blogs,
   });
 });
+
+exports.login_user = [
+  body("username").trim().escape(),
+  body("password", "Password must be at least 8 characters")
+    .trim()
+    .isLength({ min: 8 })
+    .escape(),
+
+  async (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.json({ errors: errors.array().map((error) => error.msg) });
+    }
+
+    passport.authenticate("local", (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.json({ success: false, message: info.message });
+      }
+
+      const userData = {
+        id: user._id,
+        username: user.username,
+      };
+      return res.json({ success: true, user: userData });
+    })(req, res, next);
+  },
+];

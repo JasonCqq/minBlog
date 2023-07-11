@@ -8,6 +8,8 @@ router.get("/create", function (req, res) {
 
 router.post("/create", user_controller.create_user);
 
+router.post("/login", user_controller.login_user);
+
 //user_controller.create_user
 router.get("/:id", user_controller.view_user);
 

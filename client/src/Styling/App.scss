@@ -81,11 +81,11 @@
 .main-blogs {
   display: flex;
   flex-direction: column;
-  height: 50vh;
+  height: 55vh;
   align-items: center;
 
   .line {
-    height: 1px;
+    height: 5px;
     background-color: black;
     width: 50%;
   }
@@ -103,6 +103,7 @@
     align-items: center;
     text-decoration: underline;
     margin-top: 10px;
+    padding-bottom: 20px;
     p {
       font-family: l;
     }
@@ -112,10 +113,10 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 50px;
+    column-gap: 20px;
+    row-gap: 0px;
     width: 80%;
-    padding: 50px 20px;
-    height: 50vh;
+    height: 40vh;
 
     .blogs-item {
       padding: 15px;

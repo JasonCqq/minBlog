@@ -31,3 +31,79 @@
     }
   }
 }
+
+.login-form {
+  position: fixed;
+  right: 0;
+  margin-top: 8vh;
+  margin-right: 10vw;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+  width: 16.5vw;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  gap: 10px;
+  animation-duration: 0.5s;
+  animation-name: slidein;
+  animation-timing-function: ease-in-out;
+  transform-origin: top;
+
+  @keyframes slidein {
+    0% {
+      transform: scaleY(0);
+    }
+    75% {
+      transform: scaleY(1.1);
+    }
+
+    100% {
+      transform: scaleY(1);
+    }
+  }
+
+  .login-forgot-message {
+    font-size: 0.8rem;
+    margin-top: 15px;
+  }
+
+  .login-input {
+    background: none;
+    border: none;
+    border-bottom: 2px solid white;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    padding-bottom: 10px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .login-button {
+    background: none;
+    border: 2px solid white;
+    color: white;
+    font-weight: bold;
+    padding: 7px 12px;
+    margin-top: 10px;
+    transition: background-color 0.2s ease-in;
+
+    &:hover {
+      cursor: pointer;
+      background-color: white;
+      color: black;
+    }
+  }
+
+  .form-flex {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
