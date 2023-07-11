@@ -1,3 +1,4 @@
+// Global user context
 import React, { useContext, useState } from "react";
 
 type User = {

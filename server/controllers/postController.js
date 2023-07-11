@@ -15,6 +15,7 @@ exports.view_post = asyncHandler(async (req, res) => {
 });
 
 exports.create_post = [
+  // Sanitize
   body("title", "Title must be 3-50 characters")
     .trim()
     .isLength({ min: 3, max: 50 })

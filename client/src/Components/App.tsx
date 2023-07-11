@@ -74,6 +74,7 @@ function App() {
     console.log("SUBMITTED");
   };
 
+  // Store input values
   function store(e: ChangeEvent<HTMLInputElement>) {
     const new_data: SignUpData = { ...signUp };
     new_data[e.target.name] = e.target.value;

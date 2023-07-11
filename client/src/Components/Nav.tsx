@@ -19,6 +19,7 @@ function Nav() {
     password: "",
   });
 
+  // Check if logged in before.
   useEffect(() => {
     axios.get("http://localhost:3000/user/login").then((res) => {
       const data = res.data;
@@ -82,9 +83,9 @@ function Nav() {
           </Link>
           {user ? (
             <>
-              <a href="#" className="main-ref">
+              <Link to="profile" className="main-ref">
                 Profile
-              </a>
+              </Link>
               <a href="#" className="main-ref" onClick={() => logOut()}>
                 Logout
               </a>

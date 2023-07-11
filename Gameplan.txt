@@ -1,7 +1,8 @@
 NOTES -
-*SANITIZE URLS
+*SANITIZE URLS IF NEED TO
 *ADD ERROR HANDLING ON SIGN UP FORM, ADD REDIRECTING AFTER SUBMISSION
 *Email/Username existing
+*Add animations
 
 USERS -
 Profile (Second Website)
@@ -16,9 +17,6 @@ Won't be published, saves all the typed in data and save into database.
 Bookmarks
 Each blog will have a save function, which will save the blog id to the User in database
 Display all bookmarks in profile
-
-Authentication/Registration/Authorization
-Regular Authentication + JWT Tokens
 
 Send Email Function
 Allow sending a message to user in profile. (It will send to the user's email that was used in registration)
@@ -39,6 +37,12 @@ POSTS -
 Profile Name/Social Media links/URL Share
 Selectable Categories (Concepts, Life Tips, ELI5, Business Ad, etc.)
 Text Editor - 500-1000 characters limit
+Bionic REading
+
+
+----------------- FINISHED STUFF -----------------
+Authentication/Registration/Authorization
+Regular Authentication
 
 
 Data models:
@@ -53,7 +57,6 @@ USERS
     bookmarks, REF
     drafts, REF
 }
-
 COMMENTS
 {
     _id,
@@ -61,7 +64,6 @@ COMMENTS
     timestamp,
     blog_id, REF
 }
-
 POSTS
 {
     _id,

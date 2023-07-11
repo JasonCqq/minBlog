@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 
 exports.create_user = [
+  // Sanitize
   body("full_name").trim().escape(),
   body("username").trim().escape(),
   body("password", "Password must be between 8-20 characters")
@@ -23,6 +24,7 @@ exports.create_user = [
     .escape(),
   body("email").trim().isEmail().escape(),
 
+  // Hash Password and Save User
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
 
