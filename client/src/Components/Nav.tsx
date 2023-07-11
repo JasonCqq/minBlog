@@ -2,6 +2,7 @@ import React, { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import "../Styling/Nav.scss";
 import axios from "axios";
 import { useGlobalContext } from "./GlobalUser";
+import { Link } from "react-router-dom";
 
 interface LoginData {
   username: string;
@@ -73,13 +74,12 @@ function Nav() {
         <h1 id="main-logo">minBlog</h1>
 
         <ul className="main-right">
-          <a href="#" className="main-ref">
+          <Link to="/" className="main-ref">
             Home
-          </a>
-          <a href="#" className="main-ref" onClick={() => console.log(user)}>
+          </Link>
+          <Link to="blogs" className="main-ref">
             Blogs
-          </a>
-
+          </Link>
           {user ? (
             <>
               <a href="#" className="main-ref">

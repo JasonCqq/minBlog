@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import uniqid from "uniqid";
 import axios from "axios";
-
+import { Link } from "react-router-dom";
 import "../Styling/App.scss";
 import { BsCheckLg } from "react-icons/bs";
 import { HiArrowSmallRight } from "react-icons/hi2";
@@ -148,10 +148,11 @@ function App() {
 
       <section className="main-blogs">
         <p className="main-blogs-heading">Recent Blogs</p>
-        <a href="/" className="blogs-item-more">
-          <p>View more blogs</p>
+        <Link to="/blogs" className="blogs-item-more">
+          View more blogs
           <HiArrowSmallRight />
-        </a>
+        </Link>
+
         <article className="blogs-grid">
           {posts.map((post) => {
             let truncText = post.text;
