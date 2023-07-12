@@ -3,6 +3,32 @@
   padding-top: 8vh;
   margin-left: 10vw;
 
+  .forum-pages {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55vw;
+    gap: 10px;
+
+    .page-arrow:hover {
+      cursor: pointer;
+    }
+
+    .page {
+      border: none;
+      padding: 5px 10px;
+      border-radius: 25px;
+      color: black;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .activePage {
+      background-color: black;
+      color: white;
+    }
+  }
+
   .forum-flex {
     display: flex;
 
@@ -15,19 +41,19 @@
       margin-right: 7vw;
       margin-top: 5vh;
       gap: 20px;
-      border: 2px solid #e4e6e8;
-      border-radius: 10px;
+      border: 2px solid rgba(0, 0, 0, 0.687);
+      border-radius: 5px;
       padding: 20px;
       width: 15vw;
-      height: 415px;
+      height: 50vh;
 
       .filter-header {
         font-size: 1.75rem;
       }
 
       .filter-search {
-        border: 2px solid black;
-        border-radius: 10px;
+        border: none;
+        border-bottom: 2px solid black;
         font-size: 1.1rem;
         padding: 5px;
       }
@@ -48,9 +74,9 @@
 
       .line {
         width: 50%;
-        border: 1px solid black;
+        border: 1px solid #e4e6e8;
         border-radius: 10px;
-        background-color: black;
+        background-color: #e4e6e8;
       }
     }
   }
@@ -59,6 +85,11 @@
     display: flex;
     align-items: center;
     margin-top: 5vh;
+
+    .forum-docs {
+      margin-left: 5.5vw;
+      margin-top: 1vh;
+    }
 
     .forum-create {
       margin-left: 30px;

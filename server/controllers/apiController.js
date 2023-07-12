@@ -13,3 +13,16 @@ exports.get_recent_posts = asyncHandler(async (req, res) => {
     .exec();
   return res.json({ posts: posts, docCount: docCount });
 });
+
+exports.get_blogs = asyncHandler(async (req, res) => {
+  const docCount = await Post.countDocuments({});
+  const page = req.query.p || 0;
+  const blogsPerPage = 9;
+
+  const blogs = await Post.find()
+    .skip(page * blogsPerPage)
+    .limit(blogsPerPage)
+    .exec();
+
+  return res.json({ blogs: blogs, docCount: docCount });
+});

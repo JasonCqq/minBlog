@@ -1,8 +1,10 @@
 import "../Styling/Blogs.scss";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import uniqid from "uniqid";
+import { GrFormNextLink } from "react-icons/gr";
+import { BiArrowBack } from "react-icons/bi";
 
 interface Post {
   title: string;
@@ -14,46 +16,47 @@ interface Post {
 }
 
 function Blogs() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const pageQuery = queryParams.get("p");
+
   const [posts, setPosts] = useState<Post[]>([]);
   const [documentCount, setDocumentCount] = useState<number>();
   const [pagesCount, setPagesCount] = useState<number[]>();
+  const [page, setPage] = useState<number>(0);
+
+  useEffect(() => {
+    setPage(Number(pageQuery));
+  }, []);
 
   //Get 9 blogs.
   useEffect(() => {
-    axios.get("http://localhost:3000/api/posts/9").then((res) => {
+    axios.get(`http://localhost:3000/api/blogs/?p=${page}`).then((res) => {
       const data = res.data;
       if (data) {
-        setPosts(data.posts);
+        setPosts(data.blogs);
         setDocumentCount(data.docCount);
       }
     });
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     if (!documentCount) {
       return;
     }
 
-    let pages = documentCount / 9;
-    let pagesArr = [];
-
-    if (documentCount % 9 === 0) {
-      for (let i = 1; i <= pages; i++) {
-        pagesArr.push(i);
-      }
-      setPagesCount(pagesArr);
-    } else if (documentCount % 9 !== 0) {
-      for (let i = 1; i <= pages + 1; i++) {
-        pagesArr.push(i);
-      }
-      setPagesCount(pagesArr);
-    }
+    const pageCount = Math.ceil(documentCount / 9);
+    const pagesArr = Array.from({ length: pageCount }, (_, index) => index);
+    setPagesCount(pagesArr);
   }, [documentCount]);
 
   return (
     <div className="forum-container">
       <header className="forum-header">
-        <p className="forum-heading">All Blogs</p>
+        <div>
+          <p className="forum-heading">All Blogs</p>
+          <p className="forum-docs"> ({documentCount} Blogs available)</p>
+        </div>
         <Link to="/" className="forum-create">
           Create a Blog
         </Link>
@@ -87,40 +90,40 @@ function Blogs() {
           <input placeholder="Search" className="filter-search"></input>
 
           <div style={{ display: "flex", gap: "3px" }}>
-            <label htmlFor="search-title">Title</label>
-            <input type="radio" name="search-title"></input>
+            <label htmlFor="search">Title</label>
+            <input type="radio" name="search"></input>
 
-            <label htmlFor="search-author">Author</label>
-            <input type="radio" name="search-author"></input>
+            <label htmlFor="search">Author</label>
+            <input type="radio" name="search"></input>
 
-            <label htmlFor="search-tag">Tag</label>
-            <input type="radio" name="search-tag"></input>
+            <label htmlFor="search">Tag</label>
+            <input type="radio" name="search"></input>
           </div>
 
           <h2 className="filter-header">Sort</h2>
 
           <div style={{ display: "flex", gap: "3px" }}>
-            <label htmlFor="sort-title">Title</label>
-            <input type="radio" name="sort-title"></input>
+            <label htmlFor="sort">Title</label>
+            <input type="radio" name="sort"></input>
 
-            <label htmlFor="sort-author">Author</label>
-            <input type="radio" name="sort-author"></input>
+            <label htmlFor="sort">Author</label>
+            <input type="radio" name="sort"></input>
 
-            <label htmlFor="sort-tag">Tag</label>
-            <input type="radio" name="sort-tag"></input>
+            <label htmlFor="sort">Tag</label>
+            <input type="radio" name="sort"></input>
 
-            <label htmlFor="sort-date">Date</label>
-            <input type="radio" name="sort-date"></input>
+            <label htmlFor="sort">Date</label>
+            <input type="radio" name="sort"></input>
           </div>
 
           <div className="line"></div>
 
           <div style={{ display: "flex", gap: "3px" }}>
-            <label htmlFor="sort-des">Ascending</label>
-            <input type="radio" name="sort-des"></input>
+            <label htmlFor="sort-order">Ascending</label>
+            <input type="radio" name="sort-order"></input>
 
-            <label htmlFor="sort-asc">Descending</label>
-            <input type="radio" name="sort-asc"></input>
+            <label htmlFor="sort-order">Descending</label>
+            <input type="radio" name="sort-order"></input>
           </div>
 
           <div>
@@ -131,13 +134,35 @@ function Blogs() {
       </div>
 
       <div>
-        <ol>
-          {pagesCount?.map((page) => {
-            return <li key={uniqid()}>{page}</li>;
+        <ol className="forum-pages">
+          {Number(page) === 0 ? null : (
+            <BiArrowBack
+              size={20}
+              onClick={() => setPage(page - 1)}
+              className="page-arrow"
+            />
+          )}
+          {pagesCount?.map((p) => {
+            return (
+              <Link
+                to={`/blogs?p=${p}`}
+                className={`page ${p === page ? "activePage" : ""}`}
+                key={uniqid()}
+                onClick={() => setPage(p)}
+              >
+                {p}
+              </Link>
+            );
           })}
-        </ol>
 
-        <p> {documentCount} Blogs available</p>
+          {Number(pagesCount?.length) === Number(page + 1) ? null : (
+            <GrFormNextLink
+              size={25}
+              onClick={() => setPage(page + 1)}
+              className="page-arrow"
+            />
+          )}
+        </ol>
       </div>
     </div>
   );

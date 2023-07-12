@@ -27,6 +27,7 @@ interface SignUpData {
 
 function App() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [docs, setDocs] = useState<number>();
 
   const [signUp, setSignUp] = useState({
     full_name: "",
@@ -38,10 +39,11 @@ function App() {
 
   //Get 6 blogs.
   useEffect(() => {
-    fetch("http://localhost:3000/api/posts/6")
-      .then((res) => res.json())
-      .then((dat) => setPosts(dat))
-      .catch((err) => console.log(err));
+    axios.get("http://localhost:3000/api/posts/6").then((res) => {
+      const data = res.data;
+      setPosts(data.posts);
+      setDocs(data.docCount);
+    });
   }, []);
 
   //Submit user information
@@ -150,7 +152,7 @@ function App() {
       <section className="main-blogs">
         <p className="main-blogs-heading">Recent Blogs</p>
         <Link to="/blogs" className="blogs-item-more">
-          View more blogs
+          View {docs} blogs
           <HiArrowSmallRight />
         </Link>
 
