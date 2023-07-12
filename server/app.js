@@ -20,6 +20,7 @@ var apiRouter = require("./routes/api");
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
+mongoose.set("debug", true);
 const mongoDB = process.env.DATABASE_KEY;
 async function main() {
   await mongoose.connect(`${mongoDB}`);

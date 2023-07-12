@@ -58,18 +58,23 @@
         padding: 5px;
       }
 
-      .search-button {
-        margin-right: 15px;
-      }
+      .filter-buttons {
+        margin-top: 5vh;
 
-      .clear-button {
-        border: none;
-        background-color: black;
-        color: white;
-        border-radius: 10px;
-        font-weight: bold;
-        padding: 10px 10px;
-        box-shadow: 1px 1px 10px black;
+        .clear-button {
+          border: none;
+          background-color: black;
+          color: white;
+          border-radius: 10px;
+          font-weight: bold;
+          padding: 10px 10px;
+          box-shadow: 1px 1px 10px black;
+        }
+
+        .search-button {
+          margin-right: 15px;
+          font-weight: bold;
+        }
       }
 
       .line {
