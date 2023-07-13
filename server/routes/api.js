@@ -6,4 +6,5 @@ router.get("/posts/:count", api_controller.get_recent_posts);
 
 router.get("/blogs", api_controller.get_blogs);
 
+router.get("/comments/:id", api_controller.get_comments);
 module.exports = router;

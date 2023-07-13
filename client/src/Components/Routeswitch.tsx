@@ -16,8 +16,11 @@ const RouteSwitch = () => {
         <Routes>
           <Route path="/" element={<App />}></Route>
           <Route path="/blogs" element={<Blogs />}></Route>
-          <Route path="blog/:id" element={<Blog key={uniqid()} />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/blog/:id" element={<Blog key={uniqid()} />}></Route>
+          <Route
+            path="/profile/:id"
+            element={<Profile key={uniqid()} />}
+          ></Route>
           <Route path="/create" element={<Create />}></Route>
         </Routes>
       </BrowserRouter>

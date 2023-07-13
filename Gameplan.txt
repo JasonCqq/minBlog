@@ -2,48 +2,44 @@ NOTES -
 *SANITIZE URLS IF NEED TO
 *ADD ERROR HANDLING ON SIGN UP FORM, ADD REDIRECTING AFTER SUBMISSION
 *Email/Username existing
-*Add animations
-*Keep search value
-*Clear filter button
-
+*Keep radio value
+*Email Verification/Forget password?
+*DARK MODE?
+*Redirect after creating post
 
 USERS -
 Profile (Second Website)
-Name/Blogs/Bookmarks/Drafts
-
-Edit/Delete/Create
-Your average CRUD
-
-Drafts
-Won't be published, saves all the typed in data and save into database.
+Name/Blogs/Bookmarks
+Edit/Delete/Create Blogs
 
 Bookmarks
-Each blog will have a save function, which will save the blog id to the User in database
+Each blog will have a save function which will save the blog id to the
+User in database
 Display all bookmarks in profile
 
+POSTS -
+Profile Name/Social Media links/URL Share
 Send Email Function
-Allow sending a message to user in profile. (It will send to the user's email that was used in registration)
+Bionic Reading
+
+----------------- FINISHED STUFF -----------------
+
+POSTS - 
+Selectable Categories (Concepts, Life Tips, ELI5, Business Ad, etc.)
+Text Editor - 500-1000 characters limit
 
 COMMENTS -
 Normal commenting function
 A dropdown comment section
 
-We will count the amount of documents (500 in this case).
-Fetch 10-20 results, and allow show more, also sort by date.
-
-Comments(500) - Click to Open
+Comments - Click to Open
 @username-214810 (Link to profile) - Timestamp
 (comment)
 
 
-POSTS -
-Profile Name/Social Media links/URL Share
-Selectable Categories (Concepts, Life Tips, ELI5, Business Ad, etc.)
-Text Editor - 500-1000 characters limit
-Bionic REading
+We will count the amount of documents (500 in this case).
+Fetch 10-20 results, and allow show more, also sort by date.
 
-
------------------ FINISHED STUFF -----------------
 Authentication/Registration/Authorization
 Regular Authentication
 
@@ -74,5 +70,5 @@ POSTS
     text,
     category,
     author_id, REF
-    draft/published?
+    published?
 }

@@ -92,9 +92,13 @@ function Nav() {
               <p style={{ color: "white" }}>{user.username}</p>
             </>
           ) : (
-            <a href="#" className="main-ref" onClick={() => setLogin(!login)}>
+            <p
+              style={{ cursor: "pointer" }}
+              className="main-ref"
+              onClick={() => setLogin(!login)}
+            >
               Login
-            </a>
+            </p>
           )}
         </ul>
       </nav>

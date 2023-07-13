@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Post = require("../models/postModel");
+const Comment = require("../models/commentModel");
 
 exports.get_recent_posts = asyncHandler(async (req, res) => {
   const count = req.params.count;
@@ -90,4 +91,15 @@ exports.get_blogs = asyncHandler(async (req, res) => {
   }
 
   return res.json({ blogs: blogs[0].blogs, docCount: blogs[0].count[0].count });
+});
+
+// Get comments on specific post
+exports.get_comments = asyncHandler(async (req, res) => {
+  const post = req.params.id;
+  const comments = await Comment.find({ blog_id: [post] })
+    .sort({ timestamp: 1 })
+    .populate({ path: "user", select: "username -_id" })
+    .exec();
+
+  return res.json({ comments: comments });
 });

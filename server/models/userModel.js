@@ -8,7 +8,6 @@ const UserSchema = new Schema({
   email: { type: String, required: true },
   blogs: { type: Schema.Types.ObjectId, ref: "Post" },
   bookmarks: { type: Schema.Types.ObjectId, ref: "Post" },
-  drafts: { type: Schema.Types.ObjectId, ref: "Post" },
 });
 
 module.exports = mongoose.model("User", UserSchema);

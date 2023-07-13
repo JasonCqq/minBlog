@@ -1,8 +1,10 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
+const Post = require("../models/postModel");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
+const { default: mongoose } = require("mongoose");
 
 exports.create_user = [
   // Sanitize
@@ -50,13 +52,23 @@ exports.create_user = [
 ];
 
 exports.view_user = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).exec();
-  res.json({
+  const id = req.params.id;
+  const user = await User.findById(id).exec();
+  let posts = await Post.find({
+    author_id: { $in: id },
+  })
+    .sort({ timestamp: 1 })
+    .exec();
+  if (posts.length === 0) {
+    posts = [];
+  }
+
+  return res.json({
     id: user._id,
     full_name: user.full_name,
     username: user.username,
     email: user.email,
-    blogs: user.blogs,
+    blogs: posts,
   });
 });
 
