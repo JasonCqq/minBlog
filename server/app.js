@@ -32,7 +32,7 @@ var app = express();
 app.use(
   cors({
     origin: "http://localhost:3006",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
 );

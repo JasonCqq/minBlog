@@ -98,7 +98,7 @@ exports.get_comments = asyncHandler(async (req, res) => {
   const post = req.params.id;
   const comments = await Comment.find({ blog_id: [post] })
     .sort({ timestamp: 1 })
-    .populate({ path: "user", select: "username -_id" })
+    .populate({ path: "user", select: "username _id" })
     .exec();
 
   return res.json({ comments: comments });

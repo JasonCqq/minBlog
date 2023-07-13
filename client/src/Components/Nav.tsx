@@ -83,12 +83,16 @@ function Nav() {
           </Link>
           {user ? (
             <>
-              <Link to="profile" className="main-ref">
+              <Link to={`/profile/${user.id}`} className="main-ref">
                 Profile
               </Link>
-              <a href="#" className="main-ref" onClick={() => logOut()}>
+              <p
+                style={{ cursor: "pointer" }}
+                className="main-ref"
+                onClick={() => logOut()}
+              >
                 Logout
-              </a>
+              </p>
               <p style={{ color: "white" }}>{user.username}</p>
             </>
           ) : (

@@ -19,7 +19,10 @@ router.post("/login", user_controller.login_user);
 
 router.post("/logout", user_controller.logout_user);
 
-//user_controller.create_user
+router.put("/bookmark/:id", user_controller.add_bookmark);
+
+router.delete("/bookmark/:id", user_controller.delete_bookmark);
+
 router.get("/:id", user_controller.view_user);
 
 module.exports = router;

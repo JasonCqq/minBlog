@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 type User = {
   username: string | null;
   id: string | null;
+  bookmarks: [string];
 };
 
 type ValueProp = {

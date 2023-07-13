@@ -6,9 +6,9 @@ NOTES -
 *Email Verification/Forget password?
 *DARK MODE?
 *Redirect after creating post
+*If no comments, then display no comments
 
-USERS -
-Profile (Second Website)
+
 Name/Blogs/Bookmarks
 Edit/Delete/Create Blogs
 
@@ -18,15 +18,11 @@ User in database
 Display all bookmarks in profile
 
 POSTS -
-Profile Name/Social Media links/URL Share
-Send Email Function
 Bionic Reading
 
 ----------------- FINISHED STUFF -----------------
-
-POSTS - 
-Selectable Categories (Concepts, Life Tips, ELI5, Business Ad, etc.)
-Text Editor - 500-1000 characters limit
+USERS -
+Profile (Second Website)
 
 COMMENTS -
 Normal commenting function
@@ -36,6 +32,10 @@ Comments - Click to Open
 @username-214810 (Link to profile) - Timestamp
 (comment)
 
+POSTS - 
+Selectable Categories (Concepts, Life Tips, ELI5, Business Ad, etc.)
+Text Editor - 500-1000 characters limit
+Send Email Function
 
 We will count the amount of documents (500 in this case).
 Fetch 10-20 results, and allow show more, also sort by date.

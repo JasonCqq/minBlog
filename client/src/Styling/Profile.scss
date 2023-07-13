@@ -1,3 +1,79 @@
 .profile-container {
   padding-top: 8vh;
+
+  .profile-left {
+    margin-left: 25vw;
+    width: 40vw;
+    .profile-username {
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      margin-top: 7vh;
+    }
+
+    .profile-flex {
+      margin-top: 3vh;
+      gap: 40px;
+      font-size: 1.2rem;
+      display: flex;
+      border-bottom: 1px solid #f2f2f2;
+    }
+
+    .profile-blogs {
+      display: grid;
+      grid-template-columns: 1;
+      grid-template-rows: auto;
+      height: auto;
+      gap: 2vh;
+      .profile-blog {
+        gap: 10px;
+        padding: 10px;
+        margin-top: 2vh;
+        border: 2px solid #f2f2f2;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+
+        &:hover {
+          border: 2px solid black;
+          cursor: pointer;
+          box-shadow: 1px 1px 20px #d8dadb;
+        }
+
+        .profile-blog-flex {
+          display: flex;
+          align-items: center;
+          gap: 1vw;
+          .profile-blog-category {
+            background-color: black;
+            color: white;
+            padding: 5px;
+            border-radius: 15px;
+          }
+
+          .profile-blog-title {
+            font-size: 1.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  .profile-right {
+    position: fixed;
+    top: 0;
+    right: 0;
+    border-left: 2px solid #f2f2f2;
+    margin-right: 20vw;
+    margin-top: 15vh;
+    padding-left: 3vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    .profile-full-name {
+      font-size: 2rem;
+    }
+  }
 }

@@ -6,8 +6,7 @@ const UserSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, minLength: 8, required: true },
   email: { type: String, required: true },
-  blogs: { type: Schema.Types.ObjectId, ref: "Post" },
-  bookmarks: { type: Schema.Types.ObjectId, ref: "Post" },
+  bookmarks: [{ type: Schema.Types.ObjectId, ref: "Post" }],
 });
 
 module.exports = mongoose.model("User", UserSchema);

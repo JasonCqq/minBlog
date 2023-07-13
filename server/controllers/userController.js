@@ -4,7 +4,6 @@ const Post = require("../models/postModel");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-const { default: mongoose } = require("mongoose");
 
 exports.create_user = [
   // Sanitize
@@ -57,8 +56,9 @@ exports.view_user = asyncHandler(async (req, res) => {
   let posts = await Post.find({
     author_id: { $in: id },
   })
-    .sort({ timestamp: 1 })
+    .sort({ timestamp: -1 })
     .exec();
+
   if (posts.length === 0) {
     posts = [];
   }
@@ -97,6 +97,7 @@ exports.login_user = [
       const userData = {
         id: user._id,
         username: user.username,
+        bookmarks: user.bookmarks,
       };
       req.session.user = userData;
       return res.json({ success: true, user: req.session.user });
@@ -110,4 +111,18 @@ exports.logout_user = asyncHandler(async (req, res) => {
   });
   req.session.destroy();
   return res.json({ success: true });
+});
+
+exports.add_bookmark = asyncHandler(async (req) => {
+  const post = req.params.id;
+  const user = req.session.user;
+
+  await User.findByIdAndUpdate(user.id, { $push: { bookmarks: post } }).exec();
+});
+
+exports.delete_bookmark = asyncHandler(async (req) => {
+  const post = req.params.id;
+  const user = req.session.user;
+
+  await User.findByIdAndUpdate(user.id, { $pull: { bookmarks: post } }).exec();
 });

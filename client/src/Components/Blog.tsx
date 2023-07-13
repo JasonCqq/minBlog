@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import axios from "axios";
 import "../Styling/Blog.scss";
@@ -12,8 +12,11 @@ interface PostData {
   title: string;
   text: string;
   category: string;
-  author_id: string;
-  author_username: string;
+  author_id: {
+    email: string;
+    username: string;
+    _id: string;
+  };
   timestamp: string;
 }
 
@@ -21,6 +24,7 @@ interface CommentsData {
   blog_id: string;
   user: {
     username: string;
+    _id: string;
   };
   text: string;
   timestamp: Date;
@@ -29,8 +33,10 @@ interface CommentsData {
 function Blog() {
   const { id } = useParams();
   const { user } = useGlobalContext();
+
   const [post, setPost] = useState<PostData>();
   const [comments, setComments] = useState<CommentsData[]>([]);
+  const [bookmarked, setBookmarked] = useState<boolean>();
 
   const [drop, setDrop] = useState<boolean>(false);
 
@@ -48,6 +54,16 @@ function Blog() {
       .catch((err) => {
         console.error(err);
       });
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    const bookmarks = user.bookmarks ?? [];
+    const bookmarksSet = new Set(bookmarks);
+    bookmarksSet.has(String(id)) ? setBookmarked(true) : setBookmarked(false);
   }, []);
 
   // Fetch comments on drop
@@ -86,6 +102,32 @@ function Blog() {
     });
   }
 
+  // Open Author's Email
+  function openMail() {
+    if (!post) {
+      return;
+    }
+    window.open(`mailto:${post.author_id.email}`);
+  }
+
+  function bookmarkPost() {
+    if (!post) {
+      return;
+    }
+
+    if (bookmarked) {
+      axios.delete(`http://localhost:3000/user/bookmark/${id}`, {
+        withCredentials: true,
+      });
+      setBookmarked(false);
+    } else if (!bookmarked) {
+      axios.put(`http://localhost:3000/user/bookmark/${id}`, {
+        withCredentials: true,
+      });
+      setBookmarked(true);
+    }
+  }
+
   return (
     <TransitionGroup>
       <CSSTransition classNames="example" appear={true} timeout={1000}>
@@ -112,7 +154,12 @@ function Blog() {
                     return (
                       <div key={uniqid()} className="blog-comm">
                         <div className="blog-comm-flex">
-                          <p className="blog-comm-user">{comm.user.username}</p>
+                          <Link
+                            to={`/profile/${comm.user._id}`}
+                            className="blog-comm-user"
+                          >
+                            {comm.user.username}
+                          </Link>
                           <p className="blog-comm-date">{String(formatDate)}</p>
                         </div>
 
@@ -129,12 +176,31 @@ function Blog() {
                 Category: {post?.category}
               </li>
               <li>Published: {newDate(post?.timestamp || "")}</li>
-              <li>Article By: {post?.author_username}</li>
-              <li>Author Profile</li>
-              <li>Contact Author</li>
+              <li>Article By: {post?.author_id.username}</li>
+              <Link to={`/profile/${post?.author_id._id}`}>
+                View Author Profile
+              </Link>
+              <li style={{ cursor: "pointer" }} onClick={() => openMail()}>
+                Contact Author
+              </li>
               {user ? (
                 <>
-                  <li>Bookmark Post</li>
+                  {bookmarked ? (
+                    <li
+                      style={{ cursor: "pointer" }}
+                      onClick={() => bookmarkPost()}
+                    >
+                      Unbookmark Post
+                    </li>
+                  ) : (
+                    <li
+                      style={{ cursor: "pointer" }}
+                      onClick={() => bookmarkPost()}
+                    >
+                      Bookmark Post
+                    </li>
+                  )}
+
                   {/* <li>Delete Post</li>
                   <li>Private Post</li>
                   <li>Edit Post</li> */}
