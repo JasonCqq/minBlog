@@ -9,9 +9,11 @@ import { useGlobalContext } from "./GlobalUser";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 interface Post {
+  _id: string;
   title: string;
   category: string;
   author_id: string;
+  text: string;
   author: {
     username: string;
   };
@@ -185,21 +187,23 @@ function Blogs() {
               {posts.map((post) => {
                 const formattedDate = new Date(post.timestamp).toDateString();
                 return (
-                  <div className="forum-item" key={uniqid()}>
-                    <div className="forum-flex">
-                      <p className="forum-item-date">{formattedDate} </p>
-                      <p className="forum-item-category">{post.category}</p>
-                    </div>
+                  <Link to={`/blog/${post._id}`} key={uniqid()}>
+                    <div className="forum-item">
+                      <div className="forum-flex">
+                        <p className="forum-item-date">{formattedDate} </p>
+                        <p className="forum-item-category">{post.category}</p>
+                      </div>
 
-                    <h2 className="forum-item-title">{post.title}</h2>
+                      <h2 className="forum-item-title">{post.title}</h2>
 
-                    <div className="forum-flex">
-                      <p>2 min read · </p>
-                      <p className="forum-item-author">
-                        By {post.author.username}
-                      </p>
+                      <div className="forum-flex">
+                        <p>{Math.ceil(post.text.length / 25)}s Read · </p>
+                        <p className="forum-item-author">
+                          By {post.author.username}
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </section>

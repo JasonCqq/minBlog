@@ -44,7 +44,6 @@
       margin-right: 7vw;
       margin-top: 5vh;
       gap: 20px;
-      border: 2px solid rgba(0, 0, 0, 0.687);
       border-radius: 5px;
       padding: 20px;
       width: 15vw;
@@ -73,6 +72,9 @@
         border-bottom: 2px solid black;
         font-size: 1.1rem;
         padding: 5px;
+        &:focus {
+          outline: none;
+        }
       }
 
       .filter-buttons {
@@ -154,6 +156,7 @@
       &:hover {
         box-shadow: 1px 1px 20px #d8dadb;
         cursor: pointer;
+        border: 2px solid black;
       }
 
       .forum-item-title {

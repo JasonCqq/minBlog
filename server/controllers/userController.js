@@ -52,6 +52,7 @@ exports.create_user = [
 exports.view_user = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).exec();
   res.json({
+    id: user._id,
     full_name: user.full_name,
     username: user.username,
     email: user.email,

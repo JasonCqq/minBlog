@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import "../Styling/App.scss";
 import { BsCheckLg } from "react-icons/bs";
 import { HiArrowSmallRight } from "react-icons/hi2";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 interface Post {
+  _id: string;
   title: string;
   text: string;
   category: string;
@@ -167,20 +167,23 @@ function App() {
             const formattedDate = new Date(post.timestamp).toLocaleString();
 
             return (
-              <div className="blogs-item" key={uniqid()}>
-                <div className="blogs-flex">
-                  <h2 className="blogs-item-title">{post.title}</h2>
-                  <p className="blogs-item-category">{post.category}</p>
-                </div>
+              <Link to={`/blog/${post._id}`} key={uniqid()}>
+                <div className="blogs-item">
+                  <div className="blogs-flex">
+                    <h2 className="blogs-item-title">{post.title}</h2>
+                    <p className="blogs-item-category">{post.category}</p>
+                  </div>
 
-                <p className="blogs-item-description">{truncText}</p>
-                <div className="blogs-flex">
-                  <p className="blogs-item-author">
-                    By {post.author_id.username}
-                  </p>
-                  <p className="blogs-item-date">{formattedDate}</p>
+                  <p className="blogs-item-description">{truncText}</p>
+                  <div className="blogs-flex">
+                    <p className="blogs-item-author">
+                      {Math.ceil(post.text.length / 25)}s Read · By{" "}
+                      {post.author_id.username}
+                    </p>
+                    <p className="blogs-item-date">{formattedDate}</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </article>

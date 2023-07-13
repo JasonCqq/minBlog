@@ -3,13 +3,18 @@ const { body, validationResult } = require("express-validator");
 const Post = require("../models/postModel");
 
 exports.view_post = asyncHandler(async (req, res) => {
-  const post = await Post.findById(req.params.id).exec();
+  const post = await Post.findById(req.params.id)
+    .populate({ path: "author_id", select: "username -_id" })
+    .exec();
+  const username = post.author_id.username;
 
   res.json({
+    id: post._id,
     title: post.title,
     text: post.text,
     category: post.category,
     author_id: post.author_id,
+    author_username: username,
     timestamp: post.timestamp,
   });
 });

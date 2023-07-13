@@ -6,7 +6,7 @@ exports.get_recent_posts = asyncHandler(async (req, res) => {
 
   const docCount = await Post.countDocuments({});
 
-  const posts = await Post.find({ published: true }, "-_id")
+  const posts = await Post.find({ published: true })
     .limit(parseInt(count))
     .sort({ timestamp: -1 })
     .populate({ path: "author_id", select: "username -_id" })
@@ -68,6 +68,7 @@ exports.get_blogs = asyncHandler(async (req, res) => {
         { $unwind: "$author" },
         {
           $project: {
+            _id: 1,
             title: 1,
             text: 1,
             category: 1,
