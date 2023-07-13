@@ -1,16 +1,12 @@
 import "../Styling/Blogs.scss";
-import React, {
-  useState,
-  useEffect,
-  ChangeEvent,
-  EventHandler,
-  FormEvent,
-} from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import uniqid from "uniqid";
 import { GrFormNextLink } from "react-icons/gr";
 import { BiArrowBack } from "react-icons/bi";
+import { useGlobalContext } from "./GlobalUser";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 interface Post {
   title: string;
@@ -23,6 +19,7 @@ interface Post {
 }
 
 function Blogs() {
+  const { user } = useGlobalContext();
   const [posts, setPosts] = useState<Post[]>([]);
   const [documentCount, setDocumentCount] = useState<number>();
   const [pagesCount, setPagesCount] = useState<number[]>();
@@ -36,27 +33,48 @@ function Blogs() {
     sort_order: "",
   });
 
-  //   // Get 9 blogs.
-  //   useEffect(() => {
-  //     const url = new URL(window.location.href);
-  //     url.searchParams.set("p", String(page));
-  //     const newUrl = url.href;
-  //     window.history.pushState({ path: newUrl }, "", newUrl);
+  // Update when page changes
+  useEffect(() => {
+    let currentURL = new URL(window.location.href);
+    let searchParams = new URLSearchParams(currentURL.search);
+    searchParams.set("p", `${page}`);
+    currentURL.search = searchParams.toString();
 
-  //     axios.get(newUrl).then((res) => {
-  //       const data = res.data;
-  //       if (data) {
-  //         setPosts(data.blogs);
-  //         setDocumentCount(data.docCount);
-  //       }
-  //     });
-  //   }, [page]);
+    window.history.pushState({}, "", window.location.href);
+    window.history.replaceState(
+      {},
+      "",
+      `http://localhost:3006/blogs${currentURL.search}`
+    );
+
+    axios
+      .get(`http://localhost:3000/api/blogs${currentURL.search}`)
+      .then((res) => {
+        const data = res.data;
+        if (data) {
+          setPosts([]);
+          setPosts(data.blogs);
+          setDocumentCount(data.docCount);
+        }
+      });
+  }, [page]);
+
+  // Update page count
+  useEffect(() => {
+    if (!documentCount) {
+      return;
+    }
+
+    const pageCount = Math.ceil(documentCount / 9);
+    const pagesArr = Array.from({ length: pageCount }, (_, index) => index);
+    setPagesCount(pagesArr);
+  }, [documentCount]);
 
   // Fetch based on URL
+  const queryParams = new URLSearchParams(window.location.search);
+  const searchQuery = queryParams.get("query");
   useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
     const pageQuery = Number(queryParams.get("p"));
-    const searchQuery = queryParams.get("query");
     const queryValue = queryParams.get("queryBy");
     const sortOrder = queryParams.get("sortOrder");
     const sortValue = queryParams.get("sortBy");
@@ -66,6 +84,8 @@ function Blogs() {
     // Attach parameters
     if (searchQuery) {
       newLink += `&query=${searchQuery}&queryBy=${queryValue}`;
+      const q = document.getElementById("query") as HTMLInputElement;
+      q.value = searchQuery;
     }
 
     if (sortOrder) {
@@ -80,17 +100,6 @@ function Blogs() {
       }
     });
   }, []);
-
-  // Update pages
-  //   useEffect(() => {
-  //     if (!documentCount) {
-  //       return;
-  //     }
-
-  //     const pageCount = Math.ceil(documentCount / 9);
-  //     const pagesArr = Array.from({ length: pageCount }, (_, index) => index);
-  //     setPagesCount(pagesArr);
-  //   }, [documentCount]);
 
   function handleFilters(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -153,181 +162,193 @@ function Blogs() {
   }
 
   return (
-    <div className="forum-container">
-      <header className="forum-header">
-        <div>
-          <p className="forum-heading">All Blogs</p>
-          <p className="forum-docs"> ({documentCount} Blogs available)</p>
-        </div>
-        <Link to="/" className="forum-create">
-          Create a Blog
-        </Link>
-      </header>
-      <div className="forum-flex">
-        <section className="forum-grid">
-          {posts.map((post) => {
-            const formattedDate = new Date(post.timestamp).toDateString();
-            return (
-              <div className="forum-item" key={uniqid()}>
-                <div className="forum-flex">
-                  <p className="forum-item-date">{formattedDate} </p>
-                  <p className="forum-item-category">{post.category}</p>
-                </div>
-
-                <h2 className="forum-item-title">{post.title}</h2>
-
-                <div className="forum-flex">
-                  <p>2 min read · </p>
-                  <p className="forum-item-author">By {post.author.username}</p>
-                </div>
-              </div>
-            );
-          })}
-        </section>
-
-        <form className="filter-form" onSubmit={(e) => filterSubmit(e)}>
-          <h2 className="filter-header">Search</h2>
-          <input
-            placeholder="Search"
-            className="filter-search"
-            name="query"
-            onChange={(e) => handleFilters(e)}
-          ></input>
-
-          <div style={{ display: "flex", gap: "3px" }}>
-            <label htmlFor="query_value">Title</label>
-            <input
-              type="radio"
-              name="query_value"
-              value="title"
-              checked={search.query_value === "title"}
-              onChange={(e) => handleFilters(e)}
-            ></input>
-
-            <label htmlFor="query_value">Author</label>
-            <input
-              type="radio"
-              name="query_value"
-              value="author"
-              checked={search.query_value === "author"}
-              onChange={(e) => handleFilters(e)}
-            ></input>
-
-            <label htmlFor="query_value">Tag</label>
-            <input
-              type="radio"
-              name="query_value"
-              value="tag"
-              checked={search.query_value === "tag"}
-              onChange={(e) => handleFilters(e)}
-            ></input>
-          </div>
-
-          <h2 className="filter-header">Sort</h2>
-
-          <div style={{ display: "flex", gap: "3px" }}>
-            <label htmlFor="sort_value">Title</label>
-            <input
-              type="radio"
-              name="sort_value"
-              value="title"
-              checked={search.sort_value === "title"}
-              onChange={(e) => handleFilters(e)}
-            ></input>
-
-            <label htmlFor="sort_value">Author</label>
-            <input
-              type="radio"
-              name="sort_value"
-              value="author"
-              checked={search.sort_value === "author"}
-              onChange={(e) => handleFilters(e)}
-            ></input>
-
-            <label htmlFor="sort_value">Tag</label>
-            <input
-              type="radio"
-              name="sort_value"
-              value="tag"
-              checked={search.sort_value === "tag"}
-              onChange={(e) => handleFilters(e)}
-            ></input>
-
-            <label htmlFor="sort_value">Date</label>
-            <input
-              type="radio"
-              name="sort_value"
-              value="timestamp"
-              checked={search.sort_value === "timestamp"}
-              onChange={(e) => handleFilters(e)}
-            ></input>
-          </div>
-
-          <div className="line"></div>
-
-          <div style={{ display: "flex", gap: "3px" }}>
-            <label htmlFor="sort_order">Ascending</label>
-            <input
-              type="radio"
-              name="sort_order"
-              value="asc"
-              checked={search.sort_order === "asc"}
-              onChange={(e) => handleFilters(e)}
-            ></input>
-
-            <label htmlFor="sort_order">Descending</label>
-            <input
-              type="radio"
-              name="sort_order"
-              value="desc"
-              checked={search.sort_order === "desc"}
-              onChange={(e) => handleFilters(e)}
-            ></input>
-          </div>
-
-          <div className="filter-buttons">
-            <button type="submit" className="search-button clear-button">
-              Search
-            </button>
-            <Link to={"/blogs?p=0"} className="clear-button">
-              Clear Filters
-            </Link>
-          </div>
-        </form>
-      </div>
-
-      <div>
-        <ol className="forum-pages">
-          {Number(page) === 0 ? null : (
-            <BiArrowBack
-              size={20}
-              onClick={() => setPage(page - 1)}
-              className="page-arrow"
-            />
-          )}
-          {pagesCount?.map((p) => {
-            return (
-              <Link
-                to={`/blogs?p=${p}`}
-                className={`page ${p === page ? "activePage" : ""}`}
-                key={uniqid()}
-                onClick={() => setPage(p)}
-              >
-                {p}
+    <TransitionGroup>
+      <CSSTransition classNames="example" appear={true} timeout={1000}>
+        <div className="forum-container">
+          <header className="forum-header">
+            <div>
+              <p className="forum-heading">All Blogs</p>
+              <p className="forum-docs"> ({documentCount} Blogs available)</p>
+            </div>
+            {user ? (
+              <Link to="/create" className="forum-create">
+                Create a Blog
               </Link>
-            );
-          })}
+            ) : (
+              <p style={{ marginLeft: "20px", textDecoration: "underline" }}>
+                Log in to create a blog!
+              </p>
+            )}
+          </header>
+          <div className="forum-flex">
+            <section className="forum-grid">
+              {posts.map((post) => {
+                const formattedDate = new Date(post.timestamp).toDateString();
+                return (
+                  <div className="forum-item" key={uniqid()}>
+                    <div className="forum-flex">
+                      <p className="forum-item-date">{formattedDate} </p>
+                      <p className="forum-item-category">{post.category}</p>
+                    </div>
 
-          {Number(pagesCount?.length) === Number(page + 1) ? null : (
-            <GrFormNextLink
-              size={25}
-              onClick={() => setPage(page + 1)}
-              className="page-arrow"
-            />
-          )}
-        </ol>
-      </div>
-    </div>
+                    <h2 className="forum-item-title">{post.title}</h2>
+
+                    <div className="forum-flex">
+                      <p>2 min read · </p>
+                      <p className="forum-item-author">
+                        By {post.author.username}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </section>
+
+            <form className="filter-form" onSubmit={(e) => filterSubmit(e)}>
+              <h2 className="filter-header">Search</h2>
+              <input
+                placeholder="Search"
+                className="filter-search"
+                name="query"
+                onChange={(e) => handleFilters(e)}
+                id="query"
+              ></input>
+
+              <div style={{ display: "flex", gap: "3px" }}>
+                <label htmlFor="query_value">Title</label>
+                <input
+                  type="radio"
+                  name="query_value"
+                  value="title"
+                  checked={search.query_value === "title"}
+                  onChange={(e) => handleFilters(e)}
+                ></input>
+
+                <label htmlFor="query_value">Author</label>
+                <input
+                  type="radio"
+                  name="query_value"
+                  value="author"
+                  checked={search.query_value === "author"}
+                  onChange={(e) => handleFilters(e)}
+                ></input>
+
+                <label htmlFor="query_value">Tag</label>
+                <input
+                  type="radio"
+                  name="query_value"
+                  value="tag"
+                  checked={search.query_value === "tag"}
+                  onChange={(e) => handleFilters(e)}
+                ></input>
+              </div>
+
+              <h2 className="filter-header">Sort</h2>
+
+              <div style={{ display: "flex", gap: "3px" }}>
+                <label htmlFor="sort_value">Title</label>
+                <input
+                  type="radio"
+                  name="sort_value"
+                  value="title"
+                  checked={search.sort_value === "title"}
+                  onChange={(e) => handleFilters(e)}
+                ></input>
+
+                <label htmlFor="sort_value">Author</label>
+                <input
+                  type="radio"
+                  name="sort_value"
+                  value="author"
+                  checked={search.sort_value === "author"}
+                  onChange={(e) => handleFilters(e)}
+                ></input>
+
+                <label htmlFor="sort_value">Tag</label>
+                <input
+                  type="radio"
+                  name="sort_value"
+                  value="tag"
+                  checked={search.sort_value === "tag"}
+                  onChange={(e) => handleFilters(e)}
+                ></input>
+
+                <label htmlFor="sort_value">Date</label>
+                <input
+                  type="radio"
+                  name="sort_value"
+                  value="timestamp"
+                  checked={search.sort_value === "timestamp"}
+                  onChange={(e) => handleFilters(e)}
+                ></input>
+              </div>
+
+              <div className="line"></div>
+
+              <div style={{ display: "flex", gap: "3px" }}>
+                <label htmlFor="sort_order">Ascending</label>
+                <input
+                  type="radio"
+                  name="sort_order"
+                  value="asc"
+                  checked={search.sort_order === "asc"}
+                  onChange={(e) => handleFilters(e)}
+                ></input>
+
+                <label htmlFor="sort_order">Descending</label>
+                <input
+                  type="radio"
+                  name="sort_order"
+                  value="desc"
+                  checked={search.sort_order === "desc"}
+                  onChange={(e) => handleFilters(e)}
+                ></input>
+              </div>
+
+              <div className="filter-buttons">
+                <button type="submit" className="search-button clear-button">
+                  Search
+                </button>
+                <a href="/blogs" className="clear-button">
+                  Clear Filters
+                </a>
+              </div>
+            </form>
+          </div>
+
+          <div>
+            <ol className="forum-pages">
+              {Number(page) === 0 ? null : (
+                <BiArrowBack
+                  size={20}
+                  onClick={() => setPage(page - 1)}
+                  className="page-arrow"
+                />
+              )}
+              {pagesCount?.map((p) => {
+                return (
+                  <button
+                    className={`page ${p === page ? "activePage" : ""}`}
+                    key={uniqid()}
+                    onClick={() => setPage(p)}
+                  >
+                    {p}
+                  </button>
+                );
+              })}
+
+              {Number(pagesCount?.length) === Number(page + 1) ? null : (
+                <GrFormNextLink
+                  size={25}
+                  onClick={() => setPage(page + 1)}
+                  className="page-arrow"
+                />
+              )}
+            </ol>
+          </div>
+        </div>
+      </CSSTransition>
+    </TransitionGroup>
   );
 }
 

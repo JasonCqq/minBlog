@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import "../Styling/App.scss";
 import { BsCheckLg } from "react-icons/bs";
 import { HiArrowSmallRight } from "react-icons/hi2";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 interface Post {
   title: string;

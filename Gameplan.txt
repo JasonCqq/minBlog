@@ -3,6 +3,9 @@ NOTES -
 *ADD ERROR HANDLING ON SIGN UP FORM, ADD REDIRECTING AFTER SUBMISSION
 *Email/Username existing
 *Add animations
+*Keep search value
+*Clear filter button
+
 
 USERS -
 Profile (Second Website)

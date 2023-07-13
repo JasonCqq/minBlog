@@ -1,0 +1,69 @@
+@font-face {
+  font-family: default;
+  src: url("../Styling/fonts/CircularStd-Medium.ttf");
+}
+
+.create-container {
+  padding-top: 8vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .create-heading {
+    font-size: 2.5rem;
+    font-weight: lighter;
+    margin-top: 5vh;
+    padding-bottom: 5vh;
+  }
+
+  .create-form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    gap: 3vh;
+    justify-content: center;
+    align-items: center;
+
+    .category-input {
+      font-size: 1.25rem;
+      width: 6vw;
+      border: none;
+      padding-right: 5vw;
+
+      &:focus {
+        outline: none;
+        border-bottom: 2px solid black;
+      }
+    }
+
+    .create-input {
+      border: none;
+      font-weight: bold;
+      color: black;
+      font-size: 2.5rem;
+
+      &:focus {
+        outline: none;
+        border-bottom: 2px solid black;
+      }
+    }
+
+    #text_input {
+      resize: none;
+      font-size: 1.2rem;
+      width: 50vw;
+      height: 45vh;
+      font-family: default;
+    }
+
+    .create-button {
+      color: white;
+      background: black;
+      border: none;
+      padding: 10px;
+      width: 10vw;
+      font-size: 1.15rem;
+    }
+  }
+}
