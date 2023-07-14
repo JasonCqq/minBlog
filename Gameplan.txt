@@ -4,25 +4,31 @@ NOTES -
 *Email/Username existing
 *Keep radio value
 *Email Verification/Forget password?
-*DARK MODE?
-*Redirect after creating post
-*If no comments, then display no comments
+*Mobile responsive
+*Only display published...
+*add comments / clear useless / add tests
 
 
+Profile -
+Private Posts Tab
+Edit/Delete Blogs
+
+POSTS -
+Bionic Reading
+Edit/Delete Blogs
+
+----------------- FINISHED STUFF -----------------
+*DARK MODE
+
+USERS -
+Profile (Second Website)
 Name/Blogs/Bookmarks
-Edit/Delete/Create Blogs
 
-Bookmarks
+Bookmarks - 
 Each blog will have a save function which will save the blog id to the
 User in database
 Display all bookmarks in profile
 
-POSTS -
-Bionic Reading
-
------------------ FINISHED STUFF -----------------
-USERS -
-Profile (Second Website)
 
 COMMENTS -
 Normal commenting function

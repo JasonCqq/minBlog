@@ -50,12 +50,15 @@ function Create() {
         author_id: user?.id,
         published: post.published,
       })
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        const data = res.data;
+        if (data.success === true) {
+          window.location.href = `http://localhost:3006/blog/${data.id}`;
+        }
+      })
       .catch((err) => {
         console.error(err);
       });
-
-    console.log("Post submitted");
   }
 
   return (

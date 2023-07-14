@@ -3,6 +3,8 @@ import "../Styling/Nav.scss";
 import axios from "axios";
 import { useGlobalContext } from "./GlobalUser";
 import { Link } from "react-router-dom";
+import { MdOutlineDarkMode } from "react-icons/md";
+import { useDarkMode } from "@rbnd/react-dark-mode";
 
 interface LoginData {
   username: string;
@@ -11,6 +13,14 @@ interface LoginData {
 }
 
 function Nav() {
+  const { mode, setMode } = useDarkMode();
+  const [isActive, setIsActive] = useState(mode === "dark");
+
+  const darkModeToggle = () => {
+    setMode(isActive ? "light" : "dark");
+    setIsActive((prevActive) => !prevActive);
+  };
+
   axios.defaults.withCredentials = true;
   const { user, setUser } = useGlobalContext();
   const [login, setLogin] = useState<boolean>();
@@ -63,6 +73,7 @@ function Nav() {
       .catch((err) => console.error(err));
   };
 
+  // Store inputs
   function update(e: ChangeEvent<HTMLInputElement>) {
     const new_data: LoginData = { ...loginData };
     new_data[e.target.name] = e.target.value;
@@ -137,6 +148,16 @@ function Nav() {
           </div>
         </form>
       ) : null}
+
+      <div className="nav-buttons">
+        <button
+          className={`darkmode-button ${isActive ? "dark-mode" : "light-mode"}`}
+          onClick={() => darkModeToggle()}
+        >
+          <MdOutlineDarkMode size={25} />
+        </button>
+        <div className="bionic-reading">Turn on Fast Read</div>
+      </div>
     </>
   );
 }

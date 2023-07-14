@@ -16,6 +16,18 @@
       font-size: 1.2rem;
       display: flex;
       border-bottom: 1px solid #f2f2f2;
+
+      .active {
+        border-bottom: 2px solid black;
+      }
+
+      #home_tab,
+      #bookmarks_tab {
+        padding-bottom: 10px;
+        &:hover {
+          cursor: pointer;
+        }
+      }
     }
 
     .profile-blogs {

@@ -108,3 +108,34 @@
     gap: 10px;
   }
 }
+
+.nav-buttons {
+  max-height: 35px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-right: 3vw;
+  margin-bottom: 3vh;
+  display: flex;
+  gap: 1vw;
+
+  .darkmode-button {
+    border: none;
+    border-radius: 20px;
+    width: 50px;
+    padding: 5px;
+    background-color: black;
+    color: white;
+  }
+
+  .bionic-reading {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 25px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

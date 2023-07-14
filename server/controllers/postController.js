@@ -48,7 +48,7 @@ exports.create_post = [
         timestamp: new Date(),
       });
       await post.save();
-      res.redirect(`/post/${post._id}`);
+      return res.json({ success: true, id: post._id });
     }
   }),
 ];

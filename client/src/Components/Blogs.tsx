@@ -3,8 +3,7 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import uniqid from "uniqid";
-import { GrFormNextLink } from "react-icons/gr";
-import { BiArrowBack } from "react-icons/bi";
+import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
 import { useGlobalContext } from "./GlobalUser";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
@@ -323,8 +322,8 @@ function Blogs() {
           <div>
             <ol className="forum-pages">
               {Number(page) === 0 ? null : (
-                <BiArrowBack
-                  size={20}
+                <BiArrowToLeft
+                  size={25}
                   onClick={() => setPage(page - 1)}
                   className="page-arrow"
                 />
@@ -342,7 +341,7 @@ function Blogs() {
               })}
 
               {Number(pagesCount?.length) === Number(page + 1) ? null : (
-                <GrFormNextLink
+                <BiArrowToRight
                   size={25}
                   onClick={() => setPage(page + 1)}
                   className="page-arrow"

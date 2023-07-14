@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../Styling/Profile.scss";
 import { useParams, Link } from "react-router-dom";
 import { useGlobalContext } from "./GlobalUser";
@@ -12,6 +12,7 @@ interface ProfileData {
   username: string;
   email: string;
   blogs: Array<BlogData>;
+  bookmarks: Array<BlogData>;
 }
 
 interface BlogData {
@@ -19,6 +20,9 @@ interface BlogData {
   text: string;
   category: string;
   timestamp: Date;
+  author_id: {
+    username: string;
+  };
   _id: string;
 }
 
@@ -27,11 +31,16 @@ function Profile() {
   const { user } = useGlobalContext();
 
   const [profile, setProfile] = useState<ProfileData>();
+  const [blogs, setBlogs] = useState<BlogData[]>([]);
+  const [tab, setTab] = useState<string>();
 
+  // Get Profile Data
   useEffect(() => {
     axios.get(`http://localhost:3000/user/${id}`).then((res) => {
       const data = res.data;
       setProfile(data);
+      setBlogs(data.blogs);
+      setTab("home");
     });
   }, []);
 
@@ -40,41 +49,69 @@ function Profile() {
     window.open(`mailto:${profile?.email}`);
   }
 
+  useEffect(() => {
+    if (!profile) {
+      return;
+    }
+
+    const home = document.getElementById("home_tab");
+    const bookmarks = document.getElementById("bookmarks_tab");
+    console.log(profile);
+
+    if (tab === "home") {
+      setBlogs([...profile?.blogs]);
+      home?.classList.add("active");
+      bookmarks?.classList.remove("active");
+    } else if (tab === "bookmarks") {
+      setBlogs([...profile?.bookmarks]);
+      bookmarks?.classList.add("active");
+      home?.classList.remove("active");
+    }
+  }, [tab, profile]);
+
   return (
     <div className="profile-container">
       <div className="profile-left">
         <h1 className="profile-username">{profile?.username}</h1>
 
         <div className="profile-flex">
-          <p style={{ paddingBottom: "10px" }}>Home</p>
-          <p style={{ paddingBottom: "10px" }}>Bookmarks</p>
+          <p id="home_tab" onClick={() => setTab("home")}>
+            Home
+          </p>
+          <p id="bookmarks_tab" onClick={() => setTab("bookmarks")}>
+            Bookmarks
+          </p>
         </div>
 
         <div className="profile-blogs">
-          {profile?.blogs.map((b) => {
-            let truncText = b.text;
-            if (truncText.length > 100) {
-              truncText = truncText.substring(0, 100) + "...";
-            }
+          {blogs && blogs.length > 0 ? (
+            blogs.map((b) => {
+              let truncText = b.text;
+              if (truncText.length > 100) {
+                truncText = truncText.substring(0, 100) + "...";
+              }
 
-            const formattedDate = new Date(b.timestamp).toLocaleString();
+              const formattedDate = new Date(b.timestamp).toLocaleString();
 
-            return (
-              <Link
-                to={`/blog/${b._id}`}
-                className="profile-blog"
-                key={uniqid()}
-              >
-                <p>By {profile.full_name}</p>
-                <div className="profile-blog-flex">
-                  <h1 className="profile-blog-title">{b.title}</h1>
-                  <p className="profile-blog-category">{b.category}</p>
-                </div>
-                <p className="profile-blog-text">{truncText}</p>
-                <p className="profile-blog-date">{formattedDate}</p>
-              </Link>
-            );
-          })}
+              return (
+                <Link
+                  to={`/blog/${b._id}`}
+                  className="profile-blog"
+                  key={uniqid()}
+                >
+                  <p>By {b.author_id.username}</p>
+                  <div className="profile-blog-flex">
+                    <h1 className="profile-blog-title">{b.title}</h1>
+                    <p className="profile-blog-category">{b.category}</p>
+                  </div>
+                  <p className="profile-blog-text">{truncText}</p>
+                  <p className="profile-blog-date">{formattedDate}</p>
+                </Link>
+              );
+            })
+          ) : (
+            <p>No Blogs Found</p>
+          )}
         </div>
       </div>
       <div className="profile-right">

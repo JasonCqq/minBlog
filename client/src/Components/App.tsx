@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import "../Styling/App.scss";
 import { BsCheckLg } from "react-icons/bs";
 import { HiArrowSmallRight } from "react-icons/hi2";
+import { useGlobalContext } from "./GlobalUser";
 
 interface Post {
   _id: string;
@@ -27,6 +28,7 @@ interface SignUpData {
 }
 
 function App() {
+  const { setUser } = useGlobalContext();
   const [posts, setPosts] = useState<Post[]>([]);
   const [docs, setDocs] = useState<number>();
 
@@ -37,6 +39,8 @@ function App() {
     confirmPassword: "",
     email: "",
   });
+
+  const [signUpErrors, setSignUpErrors] = useState<string[]>([]);
 
   //Get 6 blogs.
   useEffect(() => {
@@ -52,11 +56,21 @@ function App() {
     e.preventDefault();
 
     if (signUp.password.length < 8 || signUp.confirmPassword.length < 8) {
-      return;
+      if (!signUpErrors.includes("Password must be at least 8 Characters")) {
+        setSignUpErrors((prevState) => [
+          ...prevState,
+          "Password must be at least 8 Characters",
+        ]);
+      }
     }
 
     if (signUp.password !== signUp.confirmPassword) {
-      return;
+      if (!signUpErrors.includes("Passwords do not match")) {
+        setSignUpErrors((prevState) => [
+          ...prevState,
+          "Passwords do not match",
+        ]);
+      }
     }
 
     axios
@@ -68,13 +82,21 @@ function App() {
         email: signUp.email,
       })
       .then((res) => {
-        console.log(res.data);
+        const data = res.data;
+        if (data.success === true) {
+          setUser(data.user);
+          window.location.reload();
+          window.location.href = "http://localhost:3006/blogs?p=0";
+        }
+        setSignUp((prevState) => {
+          return {
+            ...prevState,
+          };
+        });
       })
       .catch((err) => {
         console.error(err);
       });
-
-    console.log("SUBMITTED");
   };
 
   // Store input values
@@ -142,6 +164,24 @@ function App() {
               onChange={(e) => store(e)}
               name="confirmPassword"
             ></input>
+
+            {signUpErrors
+              ? signUpErrors.map((err) => {
+                  return (
+                    <div
+                      className="error-container"
+                      style={{
+                        backgroundColor: "red",
+                        color: "white",
+                        padding: "5px",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      <p>{err}</p>
+                    </div>
+                  );
+                })
+              : null}
 
             <button type="submit" className="main-form-button">
               SUBMIT

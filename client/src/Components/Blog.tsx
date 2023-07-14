@@ -147,27 +147,29 @@ function Blog() {
                 <IoMdArrowDropdown size={30} />
               </header>
 
-              {comments && drop
-                ? comments.map((comm) => {
-                    const formatDate = new Date(comm.timestamp).toDateString();
+              {comments.length !== 0 && drop ? (
+                comments.map((comm) => {
+                  const formatDate = new Date(comm.timestamp).toDateString();
 
-                    return (
-                      <div key={uniqid()} className="blog-comm">
-                        <div className="blog-comm-flex">
-                          <Link
-                            to={`/profile/${comm.user._id}`}
-                            className="blog-comm-user"
-                          >
-                            {comm.user.username}
-                          </Link>
-                          <p className="blog-comm-date">{String(formatDate)}</p>
-                        </div>
-
-                        <p className="blog-comm-text">{comm.text}</p>
+                  return (
+                    <div key={uniqid()} className="blog-comm">
+                      <div className="blog-comm-flex">
+                        <Link
+                          to={`/profile/${comm.user._id}`}
+                          className="blog-comm-user"
+                        >
+                          {comm.user.username}
+                        </Link>
+                        <p className="blog-comm-date">{String(formatDate)}</p>
                       </div>
-                    );
-                  })
-                : null}
+
+                      <p className="blog-comm-text">{comm.text}</p>
+                    </div>
+                  );
+                })
+              ) : (
+                <p>No comments on this blog yet...</p>
+              )}
             </div>
           </div>
           <div className="blog-right">

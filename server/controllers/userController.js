@@ -34,7 +34,16 @@ exports.create_user = [
     } else {
       bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
         if (err) {
-          return res.status(500).json({ error: "Error hashing password" });
+          return res.status(500).json({
+            error: "Error hashing password",
+            oldData: {
+              full_name: req.body.full_name,
+              username: req.body.username,
+              password: req.body.password,
+              confirmPassword: req.body.confirmPassword,
+              email: req.body.email,
+            },
+          });
         }
 
         const user = new User({
@@ -44,7 +53,15 @@ exports.create_user = [
           email: req.body.email,
         });
         await user.save();
-        res.redirect(`/user/${user._id}`);
+        // Log user in after creation
+        const userData = {
+          id: user._id,
+          username: user.username,
+          bookmarks: user.bookmarks,
+        };
+        req.session.user = userData;
+
+        return res.json({ success: true, user: req.session.user });
       });
     }
   }),
@@ -57,11 +74,15 @@ exports.view_user = asyncHandler(async (req, res) => {
     author_id: { $in: id },
   })
     .sort({ timestamp: -1 })
+    .populate({ path: "author_id", select: "username -_id" })
     .exec();
 
   if (posts.length === 0) {
     posts = [];
   }
+  const bookmarks = await Post.find({ _id: { $in: user.bookmarks } })
+    .populate({ path: "author_id", select: "username -_id" })
+    .exec();
 
   return res.json({
     id: user._id,
@@ -69,6 +90,7 @@ exports.view_user = asyncHandler(async (req, res) => {
     username: user.username,
     email: user.email,
     blogs: posts,
+    bookmarks: bookmarks,
   });
 });
 

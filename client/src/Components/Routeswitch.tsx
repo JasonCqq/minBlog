@@ -7,22 +7,25 @@ import Blog from "./Blog";
 import Profile from "./Profile";
 import Create from "./Create";
 import uniqid from "uniqid";
+import { DarkModeProvider } from "@rbnd/react-dark-mode";
 
 const RouteSwitch = () => {
   return (
     <>
       <BrowserRouter>
-        <Nav />
-        <Routes>
-          <Route path="/" element={<App />}></Route>
-          <Route path="/blogs" element={<Blogs />}></Route>
-          <Route path="/blog/:id" element={<Blog key={uniqid()} />}></Route>
-          <Route
-            path="/profile/:id"
-            element={<Profile key={uniqid()} />}
-          ></Route>
-          <Route path="/create" element={<Create />}></Route>
-        </Routes>
+        <DarkModeProvider>
+          <Nav />
+          <Routes>
+            <Route path="/" element={<App />}></Route>
+            <Route path="/blogs" element={<Blogs />}></Route>
+            <Route path="/blog/:id" element={<Blog key={uniqid()} />}></Route>
+            <Route
+              path="/profile/:id"
+              element={<Profile key={uniqid()} />}
+            ></Route>
+            <Route path="/create" element={<Create />}></Route>
+          </Routes>
+        </DarkModeProvider>
       </BrowserRouter>
     </>
   );
