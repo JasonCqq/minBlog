@@ -1,19 +1,16 @@
 NOTES -
 *Mobile responsive
 
-Profile -
-Private Posts Tab
-Edit/Delete Blogs
-
-POSTS -
-Edit/Delete Blogs
-Only display published...
-
 To Finish Up:
-*add comments / clear useless / add tests
+add tests
 
 ----------------- FINISHED STUFF -----------------
 *DARK MODE
+
+*add comments / clear useless / 
+
+Profile -
+Edit/Delete Blogs
 
 USERS -
 Profile (Second Website)
@@ -38,6 +35,7 @@ Selectable Categories (Concepts, Life Tips, ELI5, Business Ad, etc.)
 Text Editor - 500-1000 characters limit
 Send Email Function
 Bionic Reading
+Edit/Delete Blogs
 
 We will count the amount of documents (500 in this case).
 Fetch 10-20 results, and allow show more, also sort by date.

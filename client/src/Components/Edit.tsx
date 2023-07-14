@@ -1,8 +1,9 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "../Styling/Create.scss";
 import axios from "axios";
 import { useGlobalContext } from "./GlobalUser";
+import { useParams } from "react-router-dom";
 
 interface PostData {
   title: string;
@@ -11,14 +12,38 @@ interface PostData {
   [key: string]: string; // Index signature
 }
 
-function Create() {
+function Edit() {
   const { user } = useGlobalContext();
+  const { id } = useParams();
 
   const [post, setPost] = useState<PostData>({
     title: "",
     text: "",
     category: "",
   });
+
+  // Check if user is logged in and if user has access to edit
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    axios.get(`http://localhost:3000/post/${id}`).then((res) => {
+      const data = res.data;
+      if (String(data.author_id._id) === String(user?.id)) {
+        setPost({
+          title: data.title,
+          text: data.text,
+          category: data.category,
+        });
+      } else if (String(data.author_id._id) !== String(user?.id)) {
+        alert("Forbidden");
+      }
+    });
+  }, [user]);
+
+  useEffect(() => {
+    setCharCount(post.text.length);
+  }, [post]);
 
   const [charCount, setCharCount] = useState<number>();
 
@@ -31,27 +56,27 @@ function Create() {
   }
 
   // Submit form
-  function formSubmit(e: FormEvent<HTMLFormElement>) {
+  function editFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (post.title.length < 3 || post.title.length > 50) {
+      alert("Title must be 3-50 characters");
       return;
     }
     if (post.text.length < 50 || post.text.length > 1500) {
+      alert("Text must be 50-1500 characters");
       return;
     }
 
     axios
-      .post("http://localhost:3000/post/create", {
+      .put(`http://localhost:3000/post/${id}`, {
         title: post.title,
         text: post.text,
         category: post.category,
-        author_id: user?.id,
-        published: post.published,
       })
       .then((res) => {
         const data = res.data;
         if (data.success === true) {
-          window.location.href = `http://localhost:3006/blog/${data.id}`;
+          window.location.href = `http://localhost:3006/blog/${id}`;
         }
       })
       .catch((err) => {
@@ -63,9 +88,9 @@ function Create() {
     <TransitionGroup>
       <CSSTransition classNames="example" appear={true} timeout={1000}>
         <div className="create-container">
-          <h1 className="create-heading">Create a Blog</h1>
+          <h1 className="create-heading">Edit Blog</h1>
 
-          <form className="create-form" onSubmit={(e) => formSubmit(e)}>
+          <form className="create-form" onSubmit={(e) => editFormSubmit(e)}>
             <input
               type="text"
               placeholder="Title.. (3-50 characters)"
@@ -78,8 +103,8 @@ function Create() {
 
             <textarea
               placeholder="Text.. (50-1500 characters)"
-              className="create-input"
-              id="text_input"
+              className="text-input create-input"
+              id="edit_text_input"
               value={post.text}
               onChange={(e) => store(e)}
               name="text"
@@ -87,6 +112,7 @@ function Create() {
             ></textarea>
 
             <div>
+              <label htmlFor="category">Category: </label>
               <input
                 type="text"
                 placeholder="Category..."
@@ -100,7 +126,7 @@ function Create() {
 
             <p>{charCount} characters in text</p>
             <button type="submit" className="create-button">
-              Publish Blog
+              Finish
             </button>
           </form>
         </div>
@@ -109,4 +135,4 @@ function Create() {
   );
 }
 
-export default Create;
+export default Edit;

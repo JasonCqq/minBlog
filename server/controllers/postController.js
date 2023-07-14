@@ -7,7 +7,7 @@ exports.view_post = asyncHandler(async (req, res) => {
     .populate({ path: "author_id", select: "username _id email" })
     .exec();
 
-  res.json({
+  return res.json({
     id: post._id,
     title: post.title,
     text: post.text,
@@ -44,7 +44,7 @@ exports.create_post = [
         text: req.body.text,
         category: req.body.category,
         author_id: req.body.author_id,
-        published: req.body.published,
+        published: true,
         timestamp: new Date(),
       });
       await post.save();
@@ -73,6 +73,27 @@ exports.delete_post = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: "Post deleted" });
 });
 
-// exports.update_post = asyncHandler(async(req,res)=>{
+exports.edit_post = asyncHandler(async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
 
-// })
+  const user = req.session.user;
+  const postId = req.params.postId;
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return res.status(404).json({ error: "Post not found" });
+  }
+  if (user.id !== String(post.author_id)) {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  post.title = req.body.title;
+  post.text = req.body.text;
+  post.category = req.body.category;
+
+  await post.save();
+
+  return res.status(200).json({ success: true, message: "Post Updated" });
+});

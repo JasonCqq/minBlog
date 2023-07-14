@@ -43,7 +43,7 @@ function Blog() {
 
   const [bionicReadMode, setBionicReadMode] = useState<boolean>(false);
 
-  // Get blog off id
+  // Get blog information off id
   useEffect(() => {
     if (!id) {
       return;
@@ -70,7 +70,7 @@ function Blog() {
     bookmarksSet.has(String(id)) ? setBookmarked(true) : setBookmarked(false);
   }, []);
 
-  // Fetch comments on drop
+  // Fetch comments on click
   useEffect(() => {
     if (drop === true && comments.length === 0) {
       axios
@@ -106,7 +106,6 @@ function Blog() {
     });
   }
 
-  // Post options
   function bookmarkPost() {
     if (!post) {
       return;
@@ -234,7 +233,9 @@ function Blog() {
                       >
                         Delete Post
                       </li>
-                      <li>Edit Post</li>
+                      <li>
+                        <Link to={`/edit/${post.id}`}>Edit Post</Link>
+                      </li>
                     </>
                   ) : null}
 

@@ -43,6 +43,7 @@ exports.create_user = [
           if (err) {
             return res.status(500).json({
               error: "Error hashing password",
+              // Send back old data.
               oldData: {
                 full_name: req.body.full_name,
                 username: req.body.username,
@@ -53,6 +54,7 @@ exports.create_user = [
             });
           }
 
+          // Save user to Database
           const user = new User({
             full_name: req.body.full_name,
             username: req.body.username,
@@ -60,6 +62,7 @@ exports.create_user = [
             email: req.body.email,
           });
           await user.save();
+
           // Log user in after creation
           const userData = {
             id: user._id,
@@ -78,6 +81,7 @@ exports.create_user = [
 exports.view_user = asyncHandler(async (req, res) => {
   const id = req.params.id;
   const user = await User.findById(id).exec();
+  // Retrieve user's blogs
   let posts = await Post.find({
     author_id: { $in: id },
   })
@@ -88,6 +92,7 @@ exports.view_user = asyncHandler(async (req, res) => {
   if (posts.length === 0) {
     posts = [];
   }
+  // Retrive user's bookmarks
   const bookmarks = await Post.find({ _id: { $in: user.bookmarks } })
     .populate({ path: "author_id", select: "username -_id" })
     .exec();
@@ -103,6 +108,7 @@ exports.view_user = asyncHandler(async (req, res) => {
 });
 
 exports.login_user = [
+  // Sanitize
   body("username").trim().escape(),
   body("password", "Password must be at least 8 characters")
     .trim()
@@ -124,6 +130,7 @@ exports.login_user = [
         return res.json({ success: false, message: info.message });
       }
 
+      // Save user to session
       const userData = {
         id: user._id,
         username: user.username,

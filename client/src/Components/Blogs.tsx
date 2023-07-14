@@ -71,37 +71,50 @@ function Blogs() {
     setPagesCount(pagesArr);
   }, [documentCount]);
 
-  // Fetch based on URL
+  // Fetch URL based on filter
   const queryParams = new URLSearchParams(window.location.search);
   const searchQuery = queryParams.get("query");
   useEffect(() => {
-    const pageQuery = Number(queryParams.get("p"));
-    const queryValue = queryParams.get("queryBy");
-    const sortOrder = queryParams.get("sortOrder");
-    const sortValue = queryParams.get("sortBy");
+    if (queryParams && searchQuery) {
+      const pageQuery = Number(queryParams.get("p"));
+      const queryValue = queryParams.get("queryBy");
+      const sortOrder = queryParams.get("sortOrder");
+      const sortValue = queryParams.get("sortBy");
 
-    let newLink = `http://localhost:3000/api/blogs?p=${pageQuery}`;
+      let newLink = `http://localhost:3000/api/blogs?p=${pageQuery}`;
 
-    // Attach parameters
-    if (searchQuery) {
-      newLink += `&query=${searchQuery}&queryBy=${queryValue}`;
-      const q = document.getElementById("query") as HTMLInputElement;
-      q.value = searchQuery;
-    }
-
-    if (sortOrder) {
-      newLink += `&sortBy=${sortValue}&sortOrder=${sortOrder}`;
-    }
-
-    axios.get(`${newLink}`).then((res) => {
-      const data = res.data;
-      if (data) {
-        setPosts(data.blogs);
-        setDocumentCount(data.docCount);
+      // Attach parameters
+      if (searchQuery) {
+        newLink += `&query=${searchQuery}&queryBy=${queryValue}`;
+        const q = document.getElementById("query") as HTMLInputElement;
+        q.value = searchQuery;
       }
-    });
+
+      if (sortOrder) {
+        newLink += `&sortBy=${sortValue}&sortOrder=${sortOrder}`;
+      }
+
+      axios.get(`${newLink}`).then((res) => {
+        const data = res.data;
+        if (data) {
+          setPosts(data.blogs);
+          setDocumentCount(data.docCount);
+        }
+      });
+    } else {
+      axios
+        .get(`http://localhost:3000/api/blogs?p=0&sortBy=date&sortOrder=desc`)
+        .then((res) => {
+          const data = res.data;
+          if (data) {
+            setPosts(data.blogs);
+            setDocumentCount(data.docCount);
+          }
+        });
+    }
   }, []);
 
+  // Store fitler inputs
   function handleFilters(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setSearch((prevSearch) => ({
@@ -121,7 +134,7 @@ function Blogs() {
       !search.sort_order &&
       !search.sort_value
     ) {
-      console.log("Nothing Happens or Route back to #0");
+      alert("Search cannot be empty");
       return;
     }
 
@@ -130,7 +143,7 @@ function Blogs() {
       (search.query && !search.query_value) ||
       (!search.query && search.query_value)
     ) {
-      console.log("Invalid search condition");
+      alert("Missing search values");
       return;
     }
 
@@ -139,7 +152,7 @@ function Blogs() {
       (search.sort_order && !search.sort_value) ||
       (!search.sort_order && search.sort_value)
     ) {
-      console.log("Invalid sort condition");
+      alert("Missing sort values");
       return;
     }
 

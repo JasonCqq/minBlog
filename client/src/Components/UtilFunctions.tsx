@@ -17,5 +17,3 @@ export function deletePost(id: string, userId: string) {
     window.location.href = `http://localhost:3006/profile/${userId}`;
   });
 }
-
-// function editPost() {}

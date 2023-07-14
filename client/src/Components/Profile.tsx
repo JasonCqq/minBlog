@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Styling/Profile.scss";
 import { useParams, Link } from "react-router-dom";
 import { useGlobalContext } from "./GlobalUser";
 import axios from "axios";
 import { FiMail } from "react-icons/fi";
 import uniqid from "uniqid";
+import { deletePost } from "./UtilFunctions";
 
 interface ProfileData {
   id: string;
@@ -29,9 +30,10 @@ interface BlogData {
 function Profile() {
   const { id } = useParams();
   const { user } = useGlobalContext();
-
+  // Profile + Blog Data
   const [profile, setProfile] = useState<ProfileData>();
   const [blogs, setBlogs] = useState<BlogData[]>([]);
+
   const [tab, setTab] = useState<string>();
 
   // Get Profile Data
@@ -44,7 +46,7 @@ function Profile() {
     });
   }, []);
 
-  //   Open Author's Email
+  // Open Author's Email
   function openMail() {
     window.open(`mailto:${profile?.email}`);
   }
@@ -58,6 +60,7 @@ function Profile() {
     const bookmarks = document.getElementById("bookmarks_tab");
     console.log(profile);
 
+    // Switch data between Home and Bookmarks Tab
     if (tab === "home") {
       setBlogs([...profile?.blogs]);
       home?.classList.add("active");
@@ -99,8 +102,21 @@ function Profile() {
                   className="profile-blog"
                   key={uniqid()}
                 >
-                  <p>By {b.author_id.username}</p>
                   <div className="profile-blog-flex">
+                    <p>By {b.author_id.username}</p>
+                    <div className="profile-blog-buttons">
+                      <Link to={`/edit/${b._id}`} className="edit-button">
+                        Edit
+                      </Link>
+                      <button
+                        onClick={() => deletePost(b._id, user?.id || "")}
+                        className="delete-button"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                  <div className="profile-blog-heading">
                     <h1 className="profile-blog-title">{b.title}</h1>
                     <p className="profile-blog-category">{b.category}</p>
                   </div>

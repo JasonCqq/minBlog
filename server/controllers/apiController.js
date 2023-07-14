@@ -7,7 +7,7 @@ exports.get_recent_posts = asyncHandler(async (req, res) => {
 
   const docCount = await Post.countDocuments({});
 
-  const posts = await Post.find({ published: true })
+  const posts = await Post.find()
     .limit(parseInt(count))
     .sort({ timestamp: -1 })
     .populate({ path: "author_id", select: "username -_id" })

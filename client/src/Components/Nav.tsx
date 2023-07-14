@@ -13,15 +13,16 @@ interface LoginData {
 }
 
 function Nav() {
+  axios.defaults.withCredentials = true;
+
+  // Dark mode
   const { mode, setMode } = useDarkMode();
   const [isActive, setIsActive] = useState(mode === "dark");
-
   const darkModeToggle = () => {
     setMode(isActive ? "light" : "dark");
     setIsActive((prevActive) => !prevActive);
   };
 
-  axios.defaults.withCredentials = true;
   const { user, setUser } = useGlobalContext();
   const [login, setLogin] = useState<boolean>();
   const [loginData, setLoginData] = useState({
@@ -29,7 +30,7 @@ function Nav() {
     password: "",
   });
 
-  // Check if logged in before.
+  // Check if cookie exists.
   useEffect(() => {
     axios.get("http://localhost:3000/user/login").then((res) => {
       const data = res.data;
@@ -41,11 +42,6 @@ function Nav() {
 
   const loginForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (loginData.password.length < 8) {
-      return;
-    }
-
     axios
       .post("http://localhost:3000/user/login", {
         username: loginData.username,
@@ -89,7 +85,7 @@ function Nav() {
           <Link to="/" className="main-ref">
             Home
           </Link>
-          <Link to="blogs" className="main-ref">
+          <Link to="/blogs" className="main-ref">
             Blogs
           </Link>
           {user ? (

@@ -53,6 +53,36 @@
 
         .profile-blog-flex {
           display: flex;
+          .profile-blog-buttons {
+            display: flex;
+            gap: 5px;
+            margin-left: auto;
+            margin-right: 1vw;
+
+            .edit-button {
+              border: none;
+              background-color: #4188b2;
+              border-radius: 25px;
+              font-weight: bold;
+              color: white;
+              padding: 5px 10px;
+              font-size: 1rem;
+            }
+
+            .delete-button {
+              border: none;
+              background-color: #e65b65;
+              color: white;
+              font-weight: bold;
+              border-radius: 25px;
+              padding: 5px 10px;
+              font-size: 1rem;
+            }
+          }
+        }
+
+        .profile-blog-heading {
+          display: flex;
           align-items: center;
           gap: 1vw;
           .profile-blog-category {
@@ -61,7 +91,6 @@
             padding: 5px;
             border-radius: 15px;
           }
-
           .profile-blog-title {
             font-size: 1.5rem;
           }

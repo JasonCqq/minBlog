@@ -6,6 +6,7 @@ import Blogs from "./Blogs";
 import Blog from "./Blog";
 import Profile from "./Profile";
 import Create from "./Create";
+import Edit from "./Edit";
 import uniqid from "uniqid";
 import { DarkModeProvider } from "@rbnd/react-dark-mode";
 
@@ -24,6 +25,7 @@ const RouteSwitch = () => {
               element={<Profile key={uniqid()} />}
             ></Route>
             <Route path="/create" element={<Create />}></Route>
+            <Route path="/edit/:id" element={<Edit key={uniqid()} />}></Route>
           </Routes>
         </DarkModeProvider>
       </BrowserRouter>

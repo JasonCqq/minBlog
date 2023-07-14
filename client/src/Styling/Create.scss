@@ -37,6 +37,22 @@
       }
     }
 
+    #text_input {
+      resize: none;
+      font-size: 1.2rem;
+      width: 50vw;
+      height: 45vh;
+      font-family: default;
+    }
+
+    #edit_text_input {
+      resize: none;
+      font-size: 1.2rem;
+      width: 50vw;
+      height: 45vh;
+      font-family: default;
+    }
+
     .create-input {
       border: none;
       font-weight: bold;
@@ -47,14 +63,6 @@
         outline: none;
         border-bottom: 2px solid black;
       }
-    }
-
-    #text_input {
-      resize: none;
-      font-size: 1.2rem;
-      width: 50vw;
-      height: 45vh;
-      font-family: default;
     }
 
     .create-button {
