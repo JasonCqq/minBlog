@@ -367,3 +367,445 @@ table {
 button:hover {
   cursor: pointer;
 }
+
+// Media Queries
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  body {
+    // Home Page
+    iframe {
+      width: px;
+      margin-left: 10vw;
+    }
+    #main-nav {
+      width: 100vw;
+      height: 12.5vh;
+      font-size: 17.5px;
+      #main-logo {
+        font-size: 15px;
+        margin-left: 5vw;
+        padding-right: 5vw;
+      }
+    }
+    .login-form {
+      width: 300px;
+      height: 200px;
+      margin-top: 12.5vh;
+    }
+    .main-container {
+      width: 100vw;
+      .main-form {
+        width: 275px;
+      }
+      .main-welcome {
+        margin-left: 5vw;
+        .heading {
+          font-size: 2rem;
+        }
+        .heading-desc {
+          font-size: 17.5px;
+        }
+      }
+    }
+    .main-message {
+      width: 100vw;
+    }
+    .main-description {
+      width: 100vw;
+      padding-bottom: 5vh;
+      .description-heading {
+        margin-top: 10vh;
+      }
+      .description-flex {
+        .description-points {
+          font-size: 10px;
+          width: 35vw;
+        }
+      }
+    }
+    .main-blogs {
+      width: 100vw;
+      .blogs-grid {
+        .blogs-item {
+          width: 15vw;
+
+          .blogs-item-title {
+            width: 100px;
+            font-size: 15px;
+            padding-bottom: 5px;
+          }
+          .blogs-item-category {
+            display: none;
+          }
+          .blogs-item-author {
+            display: none;
+          }
+          .blogs-item-description {
+            display: none;
+          }
+        }
+      }
+    }
+    .nav-buttons {
+      margin-left: 3vw;
+      margin-bottom: 5vh;
+      .darkmode-button {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    // Create Page
+    .create-container {
+      .create-heading {
+        padding-top: 5vh;
+      }
+      .create-form {
+        .create-input {
+          width: 60vw;
+        }
+        .category-input {
+          width: 25vw;
+        }
+        .create-button {
+          width: 25vw;
+        }
+      }
+    }
+
+    // Forum Page
+    .forum-container {
+      width: 100vw;
+      height: auto;
+      .forum-header {
+        .forum-heading {
+          margin-top: 5vh;
+        }
+      }
+      .forum-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        .forum-item {
+          p {
+            font-size: 10px;
+          }
+          .forum-item-title {
+            font-size: 15px;
+            width: 100%;
+          }
+          .forum-item-date {
+            font-size: 12.5px;
+          }
+          .forum-item-category {
+            width: 10vw;
+            height: 2vh;
+            padding: 5px;
+            text-align: center;
+          }
+        }
+      }
+      .forum-pages {
+        margin-top: 47.5vh;
+      }
+      .forum-flex {
+        .filter-form {
+          font-size: 10px;
+          margin-left: 50vw;
+
+          .filter-buttons {
+            height: 8vh;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .clear-button {
+              width: 10vw;
+              height: 1vh;
+              font-size: 9px;
+            }
+            .search-button {
+              width: 10vw;
+              height: 5vh;
+              font-size: 10px;
+            }
+          }
+        }
+      }
+    }
+
+    // Profile Page
+    .profile-container {
+      .profile-right {
+        width: 10px;
+        .profile-full-name {
+          font-size: 15px;
+        }
+      }
+    }
+
+    // Blog Page
+    .blog-container {
+      width: 150vw;
+      .blog-right {
+        .blog-desc {
+          margin-top: 5vh;
+          font-size: 15px;
+          right: 0;
+          bottom: 0;
+          .comment-form {
+            .comment-button {
+              width: 35vw;
+            }
+          }
+        }
+      }
+      .blog-left {
+        .blog-text {
+          width: 100vw;
+          .blog-title {
+            padding-top: 10vh;
+          }
+
+          #blog-content {
+            width: 80vw;
+          }
+        }
+        .blog-comments {
+          margin-left: 20vw;
+          width: 50vw;
+          .blog-comm {
+            width: 50vw;
+          }
+        }
+      }
+    }
+  }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  body {
+    .login-form {
+      width: 40vw;
+    }
+
+    // Home Page
+    #main-nav {
+      #main-logo {
+        font-size: 15px;
+      }
+      .main-right {
+        .main-ref {
+          font-size: 15px;
+        }
+      }
+    }
+    .main-blogs {
+      .blogs-grid {
+        width: 600px;
+        .blogs-item {
+          .blogs-item-description {
+            width: 20vw;
+            padding-bottom: 10px;
+            font-size: 11px;
+          }
+          .blogs-item-author {
+            font-size: 10px;
+            padding-top: 5px;
+          }
+
+          .blogs-item-date {
+            font-size: 10px;
+          }
+        }
+      }
+    }
+    .main-description {
+      .description-flex {
+        .description-points {
+          li {
+            font-size: 15px;
+            padding-right: 25px;
+          }
+        }
+      }
+    }
+
+    // Profile Page
+    .profile-container {
+      .profile-right {
+        width: 7.5vw;
+        .profile-full-name {
+          font-size: 20px;
+        }
+      }
+    }
+
+    // Forum Page
+    .forum-container {
+      .forum-grid {
+        .forum-item {
+          .forum-item-title {
+            font-size: 15px;
+          }
+          .forum-flex {
+            margin-top: 3px;
+            font-size: 12.5px;
+          }
+
+          .forum-item-date {
+            font-size: 12.5px;
+          }
+        }
+      }
+    }
+  }
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  body {
+    // Nav
+    .login-form {
+      width: 30vw;
+    }
+    // Home Page
+    .main-blogs {
+      .blogs-grid {
+        width: 80vw;
+        .blogs-item {
+          .blogs-item-description {
+            width: 20vw;
+            padding-bottom: 10px;
+            font-size: 11px;
+          }
+          .blogs-item-author {
+            font-size: 10px;
+            padding-top: 5px;
+          }
+
+          .blogs-item-date {
+            font-size: 10px;
+          }
+        }
+      }
+    }
+    .main-description {
+      .description-flex {
+        .description-points {
+          li {
+            font-size: 15px;
+            padding-right: 25px;
+          }
+        }
+      }
+    }
+
+    // Profile Page
+    .profile-container {
+      .profile-right {
+        width: 10vw;
+        .profile-full-name {
+          font-size: 25px;
+        }
+      }
+    }
+
+    // Forum Page
+    .forum-container {
+      .forum-grid {
+        .forum-item {
+          .forum-item-title {
+            font-size: 15px;
+          }
+          .forum-flex {
+            margin-top: 3px;
+            font-size: 12.5px;
+          }
+
+          .forum-item-date {
+            font-size: 12.5px;
+          }
+        }
+      }
+    }
+  }
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  body {
+    font-size: 15px;
+
+    // Home Page
+    .login-form {
+      width: 25vw;
+    }
+
+    .main-blogs {
+      .blogs-grid {
+        .blogs-item {
+          .blogs-item-description {
+            width: 17.5vw;
+            padding-bottom: 10px;
+          }
+          .blogs-item-author {
+            font-size: 12.5px;
+            padding-top: 5px;
+          }
+        }
+      }
+    }
+
+    .main-description {
+      .description-flex {
+        .description-points {
+          li {
+            font-size: 20px;
+          }
+        }
+      }
+    }
+
+    // Forum Page
+    .forum-container {
+      .forum-grid {
+        .forum-item {
+          .forum-item-title {
+            font-size: 15px;
+          }
+          .forum-flex {
+            margin-top: 3px;
+            font-size: 12.5px;
+          }
+
+          .forum-item-date {
+            font-size: 12.5px;
+          }
+        }
+      }
+      .forum-flex {
+        .filter-form {
+          .filter-buttons {
+            height: 8vh;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .clear-button {
+              width: 5vw;
+              height: 1vh;
+              font-size: 10px;
+            }
+            .search-button {
+              width: 5vw;
+              height: 5vh;
+              font-size: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}

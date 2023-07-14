@@ -35,7 +35,7 @@
 .login-form {
   position: fixed;
   right: 0;
-  margin-top: 8vh;
+  margin-top: 6vh;
   margin-right: 10vw;
   display: flex;
   flex-direction: column;
@@ -44,7 +44,7 @@
   justify-content: center;
   align-items: center;
   height: 20vh;
-  width: 16.5vw;
+  width: 20vw;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   gap: 10px;
@@ -67,11 +67,6 @@
     }
   }
 
-  .login-forgot-message {
-    font-size: 0.8rem;
-    margin-top: 15px;
-  }
-
   .login-input {
     background: none;
     border: none;
@@ -91,7 +86,7 @@
     border: 2px solid white;
     color: white;
     font-weight: bold;
-    padding: 7px 12px;
+    padding: 10px 20px;
     margin-top: 10px;
     transition: background-color 0.2s ease-in;
 
@@ -113,8 +108,8 @@
   max-height: 35px;
   position: fixed;
   bottom: 0;
-  right: 0;
-  margin-right: 3vw;
+  left: 0;
+  margin-left: 3vw;
   margin-bottom: 3vh;
   display: flex;
 

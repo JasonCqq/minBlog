@@ -42,7 +42,7 @@ function App() {
 
   const [signUpErrors, setSignUpErrors] = useState<string[]>([]);
 
-  //Get 6 blogs.
+  // Get 6 blogs.
   useEffect(() => {
     axios.get("http://localhost:3000/api/posts/6").then((res) => {
       const data = res.data;
@@ -51,7 +51,7 @@ function App() {
     });
   }, []);
 
-  //Submit user information
+  // Submit user signup information
   const formSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -63,7 +63,6 @@ function App() {
         ]);
       }
     }
-
     if (signUp.password !== signUp.confirmPassword) {
       if (!signUpErrors.includes("Passwords do not match")) {
         setSignUpErrors((prevState) => [
@@ -84,16 +83,17 @@ function App() {
       .then((res) => {
         const data = res.data;
         if (data.success === true) {
+          // Automatically sign the user in
           setUser(data.user);
           window.location.reload();
           window.location.href = "http://localhost:3006/blogs?p=0";
         }
+        // Error handlings
         setSignUp((prevState) => {
           return {
             ...prevState,
           };
         });
-        console.log(data);
         if (!signUpErrors.includes(data.error)) {
           setSignUpErrors((prevState) => [...prevState, data.error]);
         }
@@ -208,7 +208,7 @@ function App() {
               truncText = truncText.substring(0, 100) + "...";
             }
 
-            const formattedDate = new Date(post.timestamp).toLocaleString();
+            const formattedDate = new Date(post.timestamp).toLocaleDateString();
 
             return (
               <Link to={`/blog/${post._id}`} key={uniqid()}>

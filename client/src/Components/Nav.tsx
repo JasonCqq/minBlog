@@ -140,7 +140,6 @@ function Nav() {
             <button type="submit" className="login-button">
               Log In
             </button>
-            <p className="login-forgot-message">Forgot password</p>
           </div>
         </form>
       ) : null}

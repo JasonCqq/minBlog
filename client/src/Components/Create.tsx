@@ -100,7 +100,7 @@ function Create() {
 
             <p>{charCount} characters in text</p>
             <button type="submit" className="create-button">
-              Publish Blog
+              Publish
             </button>
           </form>
         </div>

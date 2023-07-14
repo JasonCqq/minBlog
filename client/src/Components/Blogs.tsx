@@ -75,43 +75,31 @@ function Blogs() {
   const queryParams = new URLSearchParams(window.location.search);
   const searchQuery = queryParams.get("query");
   useEffect(() => {
-    if (queryParams && searchQuery) {
-      const pageQuery = Number(queryParams.get("p"));
-      const queryValue = queryParams.get("queryBy");
-      const sortOrder = queryParams.get("sortOrder");
-      const sortValue = queryParams.get("sortBy");
+    const pageQuery = Number(queryParams.get("p"));
+    const queryValue = queryParams.get("queryBy");
+    const sortOrder = queryParams.get("sortOrder");
+    const sortValue = queryParams.get("sortBy");
 
-      let newLink = `http://localhost:3000/api/blogs?p=${pageQuery}`;
+    let newLink = `http://localhost:3000/api/blogs?p=${pageQuery}`;
 
-      // Attach parameters
-      if (searchQuery) {
-        newLink += `&query=${searchQuery}&queryBy=${queryValue}`;
-        const q = document.getElementById("query") as HTMLInputElement;
-        q.value = searchQuery;
-      }
-
-      if (sortOrder) {
-        newLink += `&sortBy=${sortValue}&sortOrder=${sortOrder}`;
-      }
-
-      axios.get(`${newLink}`).then((res) => {
-        const data = res.data;
-        if (data) {
-          setPosts(data.blogs);
-          setDocumentCount(data.docCount);
-        }
-      });
-    } else {
-      axios
-        .get(`http://localhost:3000/api/blogs?p=0&sortBy=date&sortOrder=desc`)
-        .then((res) => {
-          const data = res.data;
-          if (data) {
-            setPosts(data.blogs);
-            setDocumentCount(data.docCount);
-          }
-        });
+    // Attach parameters
+    if (searchQuery) {
+      newLink += `&query=${searchQuery}&queryBy=${queryValue}`;
+      const q = document.getElementById("query") as HTMLInputElement;
+      q.value = searchQuery;
     }
+
+    if (sortOrder) {
+      newLink += `&sortBy=${sortValue}&sortOrder=${sortOrder}`;
+    }
+
+    axios.get(`${newLink}`).then((res) => {
+      const data = res.data;
+      if (data) {
+        setPosts(data.blogs);
+        setDocumentCount(data.docCount);
+      }
+    });
   }, []);
 
   // Store fitler inputs
@@ -197,7 +185,9 @@ function Blogs() {
           <div className="forum-flex">
             <section className="forum-grid">
               {posts.map((post) => {
-                const formattedDate = new Date(post.timestamp).toDateString();
+                const formattedDate = new Date(
+                  post.timestamp
+                ).toLocaleDateString();
                 return (
                   <Link to={`/blog/${post._id}`} key={uniqid()}>
                     <div className="forum-item">
@@ -209,7 +199,7 @@ function Blogs() {
                       <h2 className="forum-item-title">{post.title}</h2>
 
                       <div className="forum-flex">
-                        <p>{Math.ceil(post.text.length / 25)}s Read · </p>
+                        <p>{Math.ceil(post.text.length / 25)}s Read </p>
                         <p className="forum-item-author">
                           By {post.author.username}
                         </p>
@@ -223,6 +213,7 @@ function Blogs() {
             <form className="filter-form" onSubmit={(e) => filterSubmit(e)}>
               <h2 className="filter-header">Search</h2>
               <input
+                aria-label="Search bar"
                 placeholder="Search"
                 className="filter-search"
                 name="query"
@@ -233,8 +224,10 @@ function Blogs() {
               <div style={{ display: "flex", gap: "3px" }}>
                 <label htmlFor="query_value">Title</label>
                 <input
+                  aria-label="Filter by title"
                   type="radio"
                   name="query_value"
+                  aria-
                   value="title"
                   checked={search.query_value === "title"}
                   onChange={(e) => handleFilters(e)}
@@ -242,6 +235,7 @@ function Blogs() {
 
                 <label htmlFor="query_value">Author</label>
                 <input
+                  aria-label="Filter by author"
                   type="radio"
                   name="query_value"
                   value="author"
@@ -251,6 +245,7 @@ function Blogs() {
 
                 <label htmlFor="query_value">Tag</label>
                 <input
+                  aria-label="Filter by Category"
                   type="radio"
                   name="query_value"
                   value="tag"
@@ -264,6 +259,7 @@ function Blogs() {
               <div style={{ display: "flex", gap: "3px" }}>
                 <label htmlFor="sort_value">Title</label>
                 <input
+                  aria-label="Sort by title"
                   type="radio"
                   name="sort_value"
                   value="title"
@@ -273,6 +269,7 @@ function Blogs() {
 
                 <label htmlFor="sort_value">Author</label>
                 <input
+                  aria-label="Sort by author"
                   type="radio"
                   name="sort_value"
                   value="author"
@@ -282,6 +279,7 @@ function Blogs() {
 
                 <label htmlFor="sort_value">Tag</label>
                 <input
+                  aria-label="Sort by Category"
                   type="radio"
                   name="sort_value"
                   value="tag"
@@ -291,6 +289,7 @@ function Blogs() {
 
                 <label htmlFor="sort_value">Date</label>
                 <input
+                  aria-label="Sort by Date"
                   type="radio"
                   name="sort_value"
                   value="timestamp"
@@ -304,6 +303,7 @@ function Blogs() {
               <div style={{ display: "flex", gap: "3px" }}>
                 <label htmlFor="sort_order">Ascending</label>
                 <input
+                  aria-label="Sort order, ascending"
                   type="radio"
                   name="sort_order"
                   value="asc"
@@ -313,6 +313,7 @@ function Blogs() {
 
                 <label htmlFor="sort_order">Descending</label>
                 <input
+                  aria-label="Sort order, descending"
                   type="radio"
                   name="sort_order"
                   value="desc"
@@ -326,7 +327,7 @@ function Blogs() {
                   Search
                 </button>
                 <a href="/blogs" className="clear-button">
-                  Clear Filters
+                  Clear
                 </a>
               </div>
             </form>
