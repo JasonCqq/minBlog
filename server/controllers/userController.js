@@ -30,39 +30,47 @@ exports.create_user = [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      res.json({ errors: errors.array().map((error) => error.msg) });
+      res.json({ errors: "Invalid Gmail" });
     } else {
-      bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
-        if (err) {
-          return res.status(500).json({
-            error: "Error hashing password",
-            oldData: {
-              full_name: req.body.full_name,
-              username: req.body.username,
-              password: req.body.password,
-              confirmPassword: req.body.confirmPassword,
-              email: req.body.email,
-            },
-          });
-        }
-
-        const user = new User({
-          full_name: req.body.full_name,
-          username: req.body.username,
-          password: hashedPassword,
-          email: req.body.email,
-        });
-        await user.save();
-        // Log user in after creation
-        const userData = {
-          id: user._id,
-          username: user.username,
-          bookmarks: user.bookmarks,
-        };
-        req.session.user = userData;
-
-        return res.json({ success: true, user: req.session.user });
+      // Check if Email/Username exists already
+      const userCheck = await User.find({
+        $or: [{ username: req.body.username }, { email: req.body.email }],
       });
+      if (userCheck.length !== 0) {
+        return res.json({ success: false, error: "User already exists" });
+      } else if (userCheck.length === 0) {
+        bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+          if (err) {
+            return res.status(500).json({
+              error: "Error hashing password",
+              oldData: {
+                full_name: req.body.full_name,
+                username: req.body.username,
+                password: req.body.password,
+                confirmPassword: req.body.confirmPassword,
+                email: req.body.email,
+              },
+            });
+          }
+
+          const user = new User({
+            full_name: req.body.full_name,
+            username: req.body.username,
+            password: hashedPassword,
+            email: req.body.email,
+          });
+          await user.save();
+          // Log user in after creation
+          const userData = {
+            id: user._id,
+            username: user.username,
+            bookmarks: user.bookmarks,
+          };
+          req.session.user = userData;
+
+          return res.json({ success: true, user: req.session.user });
+        });
+      }
     }
   }),
 ];

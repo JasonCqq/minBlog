@@ -52,3 +52,27 @@ exports.create_post = [
     }
   }),
 ];
+
+exports.delete_post = asyncHandler(async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  const user = req.session.user;
+  const postId = req.params.postId;
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return res.status(404).json({ error: "Post not found" });
+  }
+  if (user.id !== String(post.author_id)) {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  await post.deleteOne();
+  return res.status(200).json({ message: "Post deleted" });
+});
+
+// exports.update_post = asyncHandler(async(req,res)=>{
+
+// })

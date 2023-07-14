@@ -156,7 +156,6 @@ function Nav() {
         >
           <MdOutlineDarkMode size={25} />
         </button>
-        <div className="bionic-reading">Turn on Fast Read</div>
       </div>
     </>
   );

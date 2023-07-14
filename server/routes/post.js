@@ -4,8 +4,8 @@ const post_controller = require("../controllers/postController");
 const comment_controller = require("../controllers/commentController");
 
 router.get("/:id", post_controller.view_post);
+router.delete("/:postId", post_controller.delete_post);
 router.post("/create", post_controller.create_post);
-// router.delete("/:id");
 // router.put("/:id");
 
 router.post("/comment", comment_controller.create_comment);

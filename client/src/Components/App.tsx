@@ -93,6 +93,10 @@ function App() {
             ...prevState,
           };
         });
+        console.log(data);
+        if (!signUpErrors.includes(data.error)) {
+          setSignUpErrors((prevState) => [...prevState, data.error]);
+        }
       })
       .catch((err) => {
         console.error(err);

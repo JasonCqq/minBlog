@@ -8,8 +8,7 @@ interface PostData {
   title: string;
   text: string;
   category: string;
-  published: boolean;
-  [key: string]: string | boolean; // Index signature
+  [key: string]: string; // Index signature
 }
 
 function Create() {
@@ -19,7 +18,6 @@ function Create() {
     title: "",
     text: "",
     category: "",
-    published: false,
   });
 
   const [charCount, setCharCount] = useState<number>();
@@ -97,13 +95,6 @@ function Create() {
                 onChange={(e) => store(e)}
                 required
                 name="category"
-              ></input>
-              <label htmlFor="published">Private Post</label>
-              <input
-                type="checkbox"
-                name="published"
-                onChange={(e) => store(e)}
-                checked={post.published}
               ></input>
             </div>
 

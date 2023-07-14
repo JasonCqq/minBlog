@@ -4,8 +4,21 @@
 }
 
 .blog-container {
-  padding-top: 8vh;
+  padding-top: 6vh;
   display: flex;
+  height: 150vh;
+
+  .bionic-reading {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 25px;
+    text-align: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 
   .blog-left {
     display: flex;
@@ -23,7 +36,7 @@
         padding-top: 3vh;
       }
 
-      .blog-content {
+      #blog-content {
         width: 50%;
         padding-top: 4vh;
         font-family: l;
@@ -109,6 +122,11 @@
       flex-direction: column;
       gap: 5vh;
       font-size: 1.2rem;
+
+      li:hover,
+      a:hover {
+        text-decoration: underline;
+      }
 
       .comment-form {
         display: flex;

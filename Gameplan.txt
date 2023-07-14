@@ -1,21 +1,16 @@
 NOTES -
-*SANITIZE URLS IF NEED TO
-*ADD ERROR HANDLING ON SIGN UP FORM, ADD REDIRECTING AFTER SUBMISSION
-*Email/Username existing
-*Keep radio value
-*Email Verification/Forget password?
 *Mobile responsive
-*Only display published...
-*add comments / clear useless / add tests
-
 
 Profile -
 Private Posts Tab
 Edit/Delete Blogs
 
 POSTS -
-Bionic Reading
 Edit/Delete Blogs
+Only display published...
+
+To Finish Up:
+*add comments / clear useless / add tests
 
 ----------------- FINISHED STUFF -----------------
 *DARK MODE
@@ -42,6 +37,7 @@ POSTS -
 Selectable Categories (Concepts, Life Tips, ELI5, Business Ad, etc.)
 Text Editor - 500-1000 characters limit
 Send Email Function
+Bionic Reading
 
 We will count the amount of documents (500 in this case).
 Fetch 10-20 results, and allow show more, also sort by date.

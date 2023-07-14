@@ -6,6 +6,7 @@ import "../Styling/Blog.scss";
 import { useGlobalContext } from "./GlobalUser";
 import { IoMdArrowDropdown } from "react-icons/io";
 import uniqid from "uniqid";
+import { openMail, deletePost } from "./UtilFunctions";
 
 interface PostData {
   id: string;
@@ -40,6 +41,8 @@ function Blog() {
 
   const [drop, setDrop] = useState<boolean>(false);
 
+  const [bionicReadMode, setBionicReadMode] = useState<boolean>(false);
+
   // Get blog off id
   useEffect(() => {
     if (!id) {
@@ -56,6 +59,7 @@ function Blog() {
       });
   }, []);
 
+  // Check if post already bookmarked.
   useEffect(() => {
     if (!user) {
       return;
@@ -102,14 +106,7 @@ function Blog() {
     });
   }
 
-  // Open Author's Email
-  function openMail() {
-    if (!post) {
-      return;
-    }
-    window.open(`mailto:${post.author_id.email}`);
-  }
-
+  // Post options
   function bookmarkPost() {
     if (!post) {
       return;
@@ -128,6 +125,42 @@ function Blog() {
     }
   }
 
+  // Bionic Reading Toggle
+  useEffect(() => {
+    applyBionicReading();
+  }, [bionicReadMode]);
+  function applyBionicReading() {
+    const text = document.getElementById("blog-content");
+    if (!text) {
+      return;
+    }
+    if (bionicReadMode === true) {
+      const new_text = text.innerText;
+      const highlightedText = highlightText(new_text);
+      text.innerHTML = highlightedText;
+    } else {
+      text.innerHTML = post?.text || "";
+    }
+  }
+  function highlightText(text: string) {
+    const words = text.split(" ");
+    const highlightedWords = words.map(function (word) {
+      if (word.length > 2) {
+        return (
+          "<b>" +
+          word.charAt(0) +
+          word.slice(1, Math.floor(word.length / 2)) +
+          "</b>" +
+          word.slice(Math.floor(word.length / 2), word.length)
+        );
+      } else {
+        return "<b>" + word.charAt(0) + "</b>" + word.charAt(1);
+      }
+    });
+
+    return highlightedWords.join(" ");
+  }
+
   return (
     <TransitionGroup>
       <CSSTransition classNames="example" appear={true} timeout={1000}>
@@ -135,7 +168,7 @@ function Blog() {
           <div className="blog-left">
             <div className="blog-text">
               <h1 className="blog-title">{post?.title}</h1>
-              <p className="blog-content">{post?.text}</p>
+              <p id="blog-content">{post?.text}</p>
             </div>
 
             <div className="blog-comments">
@@ -147,29 +180,31 @@ function Blog() {
                 <IoMdArrowDropdown size={30} />
               </header>
 
-              {comments.length !== 0 && drop ? (
-                comments.map((comm) => {
-                  const formatDate = new Date(comm.timestamp).toDateString();
+              {comments && drop ? (
+                comments.length === 0 ? (
+                  <p>No comments on this blog yet...</p>
+                ) : (
+                  comments.map((comm) => {
+                    const formatDate = new Date(comm.timestamp).toDateString();
 
-                  return (
-                    <div key={uniqid()} className="blog-comm">
-                      <div className="blog-comm-flex">
-                        <Link
-                          to={`/profile/${comm.user._id}`}
-                          className="blog-comm-user"
-                        >
-                          {comm.user.username}
-                        </Link>
-                        <p className="blog-comm-date">{String(formatDate)}</p>
+                    return (
+                      <div key={uniqid()} className="blog-comm">
+                        <div className="blog-comm-flex">
+                          <Link
+                            to={`/profile/${comm.user._id}`}
+                            className="blog-comm-user"
+                          >
+                            {comm.user.username}
+                          </Link>
+                          <p className="blog-comm-date">{String(formatDate)}</p>
+                        </div>
+
+                        <p className="blog-comm-text">{comm.text}</p>
                       </div>
-
-                      <p className="blog-comm-text">{comm.text}</p>
-                    </div>
-                  );
-                })
-              ) : (
-                <p>No comments on this blog yet...</p>
-              )}
+                    );
+                  })
+                )
+              ) : null}
             </div>
           </div>
           <div className="blog-right">
@@ -182,11 +217,27 @@ function Blog() {
               <Link to={`/profile/${post?.author_id._id}`}>
                 View Author Profile
               </Link>
-              <li style={{ cursor: "pointer" }} onClick={() => openMail()}>
+              <li
+                style={{ cursor: "pointer" }}
+                onClick={() => openMail(post?.author_id.email || "")}
+              >
                 Contact Author
               </li>
               {user ? (
                 <>
+                  {user.id === post?.author_id._id ? (
+                    <>
+                      {" "}
+                      <li
+                        style={{ cursor: "pointer" }}
+                        onClick={() => deletePost(post.id, user.id || "")}
+                      >
+                        Delete Post
+                      </li>
+                      <li>Edit Post</li>
+                    </>
+                  ) : null}
+
                   {bookmarked ? (
                     <li
                       style={{ cursor: "pointer" }}
@@ -202,10 +253,6 @@ function Blog() {
                       Bookmark Post
                     </li>
                   )}
-
-                  {/* <li>Delete Post</li>
-                  <li>Private Post</li>
-                  <li>Edit Post</li> */}
 
                   <form
                     className="comment-form"
@@ -227,6 +274,13 @@ function Blog() {
               ) : (
                 <li>Log in to comment/bookmark.</li>
               )}
+
+              <div
+                className="bionic-reading"
+                onClick={() => setBionicReadMode(!bionicReadMode)}
+              >
+                Turn on Fast Read
+              </div>
             </ul>
           </div>
         </div>
