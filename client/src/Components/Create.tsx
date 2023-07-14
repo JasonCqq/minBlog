@@ -98,7 +98,11 @@ function Create() {
               ></input>
             </div>
 
-            <p>{charCount} characters in text</p>
+            {charCount && charCount > 1500 ? (
+              <p style={{ color: "red" }}>{charCount} characters in text</p>
+            ) : (
+              <p>{charCount} characters in text</p>
+            )}
             <button type="submit" className="create-button">
               Publish
             </button>

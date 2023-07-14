@@ -86,7 +86,7 @@ exports.view_user = asyncHandler(async (req, res) => {
     author_id: { $in: id },
   })
     .sort({ timestamp: -1 })
-    .populate({ path: "author_id", select: "username -_id" })
+    .populate({ path: "author_id", select: "username _id" })
     .exec();
 
   if (posts.length === 0) {
@@ -94,7 +94,7 @@ exports.view_user = asyncHandler(async (req, res) => {
   }
   // Retrive user's bookmarks
   const bookmarks = await Post.find({ _id: { $in: user.bookmarks } })
-    .populate({ path: "author_id", select: "username -_id" })
+    .populate({ path: "author_id", select: "username _id" })
     .exec();
 
   return res.json({

@@ -23,6 +23,7 @@ interface BlogData {
   timestamp: Date;
   author_id: {
     username: string;
+    _id: string;
   };
   _id: string;
 }
@@ -58,7 +59,6 @@ function Profile() {
 
     const home = document.getElementById("home_tab");
     const bookmarks = document.getElementById("bookmarks_tab");
-    console.log(profile);
 
     // Switch data between Home and Bookmarks Tab
     if (tab === "home") {
@@ -104,17 +104,19 @@ function Profile() {
                 >
                   <div className="profile-blog-flex">
                     <p>By {b.author_id.username}</p>
-                    <div className="profile-blog-buttons">
-                      <Link to={`/edit/${b._id}`} className="edit-button">
-                        Edit
-                      </Link>
-                      <button
-                        onClick={() => deletePost(b._id, user?.id || "")}
-                        className="delete-button"
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    {user?.id && b.author_id._id === user.id ? (
+                      <div className="profile-blog-buttons">
+                        <Link to={`/edit/${b._id}`} className="edit-button">
+                          Edit
+                        </Link>
+                        <button
+                          onClick={() => deletePost(b._id, user?.id || "")}
+                          className="delete-button"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ) : null}
                   </div>
                   <div className="profile-blog-heading">
                     <h1 className="profile-blog-title">{b.title}</h1>

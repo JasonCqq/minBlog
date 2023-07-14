@@ -58,15 +58,18 @@
             gap: 5px;
             margin-left: auto;
             margin-right: 1vw;
+            align-items: center;
 
             .edit-button {
               border: none;
-              background-color: #4188b2;
+              background-color: rgb(172, 171, 171);
               border-radius: 25px;
-              font-weight: bold;
-              color: white;
+              color: rgba(255, 255, 255, 0.85);
               padding: 5px 10px;
               font-size: 1rem;
+              &:hover {
+                background-color: #4189b2a5;
+              }
             }
 
             .delete-button {
@@ -77,6 +80,9 @@
               border-radius: 25px;
               padding: 5px 10px;
               font-size: 1rem;
+              &:hover {
+                background-color: #e65b6498;
+              }
             }
           }
         }

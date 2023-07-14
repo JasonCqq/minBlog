@@ -37,7 +37,7 @@
       }
 
       #blog-content {
-        width: 50%;
+        width: 75vw;
         padding-top: 4vh;
         font-family: l;
         line-height: 4vh;
@@ -110,19 +110,80 @@
   }
 
   .blog-right {
-    border-left: 2px solid #f2f2f2;
     position: fixed;
     right: 0;
-    margin-right: 10vw;
+    margin-right: 5vw;
     margin-top: 7.1vh;
-    padding-left: 3vw;
+    padding-left: 1vw;
 
-    .blog-desc {
+    .hamburger-menu {
       display: flex;
       flex-direction: column;
-      gap: 5vh;
-      font-size: 1.2rem;
+      gap: 5px;
+      padding-bottom: 30px;
+      &:hover {
+        cursor: pointer;
+      }
+      .burger-line {
+        width: 20px;
+        height: 2px;
+        background-color: black;
+        margin-left: auto;
+        transition: transform 0.4s;
 
+        &:nth-of-type(1) {
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+        &:nth-of-type(2) {
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+        &:nth-of-type(3) {
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+      }
+    }
+
+    .cross-menu {
+      &:hover {
+        cursor: pointer;
+      }
+      .burger-line {
+        width: 20px;
+        height: 2px;
+        background-color: black;
+        margin-left: auto;
+        transition: transform 0.4s;
+
+        &:nth-of-type(1) {
+          transform: translate(0px, 3px) rotate(-45deg);
+        }
+        &:nth-of-type(2) {
+          transform: translate(0px, -3px) rotate(45deg);
+        }
+        &:nth-of-type(3) {
+          display: none;
+        }
+      }
+    }
+
+    @keyframes opacity {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .menu {
+      display: none;
+      flex-direction: column;
+      gap: 4vh;
+      font-size: 1rem;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: white;
+      border: 2px solid black;
       li:hover,
       a:hover {
         text-decoration: underline;
@@ -148,7 +209,7 @@
           text-transform: uppercase;
           background: none;
           border: 2px solid black;
-          width: 5vw;
+          width: 100px;
           padding: 7px;
           transition: background-color 0.2s ease;
           font-weight: bold;
@@ -159,6 +220,11 @@
           }
         }
       }
+    }
+    .show-menu {
+      display: flex;
+      animation-name: opacity;
+      animation-duration: 1s;
     }
   }
 }

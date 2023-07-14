@@ -34,7 +34,7 @@ code {
 .dark-mode {
   /* Don't forget the color-scheme css attribute. This will avoid light scrollbars in dark mode. */
   color-scheme: dark;
-  background-color: #121212;
+  background-color: #2b2b2bbc;
   color: white;
 
   a {
@@ -90,6 +90,8 @@ code {
 
     .forum-flex {
       .filter-form {
+        background-color: #25272b;
+        border: 2px solid white;
         .filter-search {
           border-bottom: 2px solid white;
         }
@@ -98,6 +100,7 @@ code {
           .clear-button {
             background-color: #25272b;
             color: white;
+            border: 2px solid rgba(255, 255, 255, 0.598);
           }
         }
       }
@@ -107,13 +110,17 @@ code {
       .forum-heading {
         color: white;
       }
+      .forum-create {
+        background-color: #a3a8b24e;
+      }
     }
 
     .forum-grid {
       .forum-item {
+        color: rgba(255, 255, 255, 0.95);
         .forum-item-category {
-          background-color: white;
-          color: black;
+          background-color: #a3a8b24e;
+          color: rgba(255, 255, 255, 0.627);
         }
       }
     }
@@ -181,7 +188,17 @@ code {
     }
 
     .blog-right {
-      .blog-desc {
+      .hamburger-menu {
+        .burger-line {
+          background-color: white;
+        }
+      }
+      .menu {
+        background-color: black;
+        .bionic-reading {
+          background-color: white;
+          color: black;
+        }
         .comment-form {
           .comment-area {
             border: 2px solid white;
@@ -375,17 +392,20 @@ button:hover {
   body {
     // Home Page
     iframe {
-      width: px;
-      margin-left: 10vw;
+      width: 450px;
     }
     #main-nav {
       width: 100vw;
       height: 12.5vh;
-      font-size: 17.5px;
+      font-size: 15px;
       #main-logo {
         font-size: 15px;
         margin-left: 5vw;
-        padding-right: 5vw;
+      }
+      .main-right {
+        .main-ref-user {
+          display: none;
+        }
       }
     }
     .login-form {
@@ -399,9 +419,9 @@ button:hover {
         width: 275px;
       }
       .main-welcome {
-        margin-left: 5vw;
+        margin-left: 15vw;
         .heading {
-          font-size: 2rem;
+          font-size: 1.5rem;
         }
         .heading-desc {
           font-size: 17.5px;
@@ -419,17 +439,21 @@ button:hover {
       }
       .description-flex {
         .description-points {
-          font-size: 10px;
+          display: none;
           width: 35vw;
         }
       }
     }
     .main-blogs {
       width: 100vw;
+      .line {
+        margin-top: 15vh;
+      }
       .blogs-grid {
+        height: 15vh;
+        width: 100vw;
         .blogs-item {
-          width: 15vw;
-
+          width: 20vw;
           .blogs-item-title {
             width: 100px;
             font-size: 15px;
@@ -478,7 +502,13 @@ button:hover {
     .forum-container {
       width: 100vw;
       height: auto;
+
       .forum-header {
+        .forum-create {
+          width: 25vw;
+          padding: 10px;
+          font-size: 15px;
+        }
         .forum-heading {
           margin-top: 5vh;
         }
@@ -487,6 +517,7 @@ button:hover {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         .forum-item {
+          width: 20vw;
           p {
             font-size: 10px;
           }
@@ -499,45 +530,25 @@ button:hover {
           }
           .forum-item-category {
             width: 10vw;
-            height: 2vh;
+            height: 1vh;
             padding: 5px;
+            font-size: 10px;
             text-align: center;
           }
         }
       }
-      .forum-pages {
-        margin-top: 47.5vh;
+      .filter-form {
+        max-width: 50vw;
       }
-      .forum-flex {
-        .filter-form {
-          font-size: 10px;
-          margin-left: 50vw;
-
-          .filter-buttons {
-            height: 8vh;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-
-            .clear-button {
-              width: 10vw;
-              height: 1vh;
-              font-size: 9px;
-            }
-            .search-button {
-              width: 10vw;
-              height: 5vh;
-              font-size: 10px;
-            }
-          }
-        }
+      .forum-pages {
+        margin-top: 35vh;
       }
     }
 
     // Profile Page
     .profile-container {
       .profile-right {
-        width: 10px;
+        display: none;
         .profile-full-name {
           font-size: 15px;
         }
@@ -546,36 +557,10 @@ button:hover {
 
     // Blog Page
     .blog-container {
-      width: 150vw;
-      .blog-right {
-        .blog-desc {
-          margin-top: 5vh;
-          font-size: 15px;
-          right: 0;
-          bottom: 0;
-          .comment-form {
-            .comment-button {
-              width: 35vw;
-            }
-          }
-        }
-      }
       .blog-left {
         .blog-text {
-          width: 100vw;
           .blog-title {
             padding-top: 10vh;
-          }
-
-          #blog-content {
-            width: 80vw;
-          }
-        }
-        .blog-comments {
-          margin-left: 20vw;
-          width: 50vw;
-          .blog-comm {
-            width: 50vw;
           }
         }
       }
@@ -767,6 +752,9 @@ button:hover {
 
     // Forum Page
     .forum-container {
+      .filter-form {
+        max-width: 22.5vw;
+      }
       .forum-grid {
         .forum-item {
           .forum-item-title {
@@ -782,30 +770,35 @@ button:hover {
           }
         }
       }
-      .forum-flex {
-        .filter-form {
-          .filter-buttons {
-            height: 8vh;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-
-            .clear-button {
-              width: 5vw;
-              height: 1vh;
-              font-size: 10px;
-            }
-            .search-button {
-              width: 5vw;
-              height: 5vh;
-              font-size: 10px;
-            }
-          }
-        }
-      }
     }
   }
 }
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
+  body {
+    .login-form {
+      max-width: 17.5vw;
+    }
+
+    .main-blogs {
+      .blogs-grid {
+        .blogs-item {
+          .blogs-item-description {
+            padding-bottom: 0px;
+          }
+          .blogs-item-author {
+            font-size: 12.5px;
+          }
+        }
+      }
+    }
+
+    .forum-container {
+      .forum-flex {
+        .filter-form {
+          max-width: 25vw;
+        }
+      }
+    }
+  }
 }

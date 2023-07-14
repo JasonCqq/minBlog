@@ -1,7 +1,6 @@
 .forum-container {
   height: 90vh;
   padding-top: 6vh;
-  margin-left: 10vw;
 
   .forum-pages {
     display: flex;
@@ -36,7 +35,7 @@
     display: flex;
 
     .filter-form {
-      display: flex;
+      display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -46,8 +45,12 @@
       gap: 20px;
       border-radius: 5px;
       padding: 20px;
-      width: 15vw;
+      width: 40vw;
       height: 50vh;
+      border: 2px solid black;
+      position: fixed;
+      right: 0;
+      background-color: white;
 
       input[type="radio"] {
         background-color: #fff;
@@ -80,21 +83,22 @@
 
       .filter-buttons {
         margin-top: 5vh;
-        font-weight: bold;
 
         .clear-button {
           border: none;
           background-color: black;
           color: white;
           border-radius: 5px;
+          font-size: 1rem;
           padding: 10px 10px;
-          font-size: 0.8rem;
           box-shadow: 1px 1px 5px black;
+          font-weight: bold;
         }
 
         .search-button {
           margin-right: 15px;
-          font-size: 1.2rem;
+          font-size: 1rem;
+          padding: 10px 10px;
           font-weight: bold;
         }
       }
@@ -105,6 +109,20 @@
         border-radius: 10px;
         background-color: #e4e6e8;
       }
+    }
+
+    @keyframes opacity {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    .show-filter-form {
+      display: flex;
+      animation-name: opacity;
+      animation-duration: 0.5s;
     }
   }
 

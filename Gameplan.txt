@@ -1,10 +1,9 @@
+Add tests
+
+----------------- FINISHED STUFF -----------------
 NOTES -
 *Mobile responsive
 
-To Finish Up:
-add tests
-
------------------ FINISHED STUFF -----------------
 *DARK MODE
 
 *add comments / clear useless / 

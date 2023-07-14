@@ -100,7 +100,9 @@ function Nav() {
               >
                 Logout
               </p>
-              <p style={{ color: "white" }}>{user.username}</p>
+              <p className="main-ref-user main-ref" style={{ color: "white" }}>
+                {user.username}
+              </p>
             </>
           ) : (
             <p

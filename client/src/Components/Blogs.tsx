@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import uniqid from "uniqid";
 import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
+import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { useGlobalContext } from "./GlobalUser";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
@@ -102,7 +103,7 @@ function Blogs() {
     });
   }, []);
 
-  // Store fitler inputs
+  // Store filter inputs
   function handleFilters(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setSearch((prevSearch) => ({
@@ -163,6 +164,11 @@ function Blogs() {
     window.location.href = newLink;
   }
 
+  function toggleForm() {
+    const form = document.querySelector("form.filter-form");
+    form?.classList.toggle("show-filter-form");
+  }
+
   return (
     <TransitionGroup>
       <CSSTransition classNames="example" appear={true} timeout={1000}>
@@ -210,6 +216,17 @@ function Blogs() {
               })}
             </section>
 
+            <HiMiniMagnifyingGlass
+              size={30}
+              style={{
+                cursor: "pointer",
+                position: "fixed",
+                right: "0",
+                marginRight: "5vw",
+              }}
+              onClick={() => toggleForm()}
+            />
+
             <form className="filter-form" onSubmit={(e) => filterSubmit(e)}>
               <h2 className="filter-header">Search</h2>
               <input
@@ -227,7 +244,6 @@ function Blogs() {
                   aria-label="Filter by title"
                   type="radio"
                   name="query_value"
-                  aria-
                   value="title"
                   checked={search.query_value === "title"}
                   onChange={(e) => handleFilters(e)}

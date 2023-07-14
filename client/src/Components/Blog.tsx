@@ -104,6 +104,8 @@ function Blog() {
       user: user?.id,
       blog_id: id,
     });
+
+    setCommentSubmission(true);
   }
 
   function bookmarkPost() {
@@ -160,14 +162,32 @@ function Blog() {
     return highlightedWords.join(" ");
   }
 
+  // Toggle Hamburger Menu
+  function toggleMenu() {
+    const menu = document.querySelector("ul.menu");
+    const ham_menu = document.querySelector("div.hamburger-menu");
+    menu?.classList.toggle("show-menu");
+    ham_menu?.classList.toggle("cross-menu");
+  }
+
+  // Remove special coded characters
+  function decode(html: string) {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  }
+
+  // Verify if user has commented
+  const [commentSubmission, setCommentSubmission] = useState<boolean>(false);
+
   return (
     <TransitionGroup>
       <CSSTransition classNames="example" appear={true} timeout={1000}>
         <div className="blog-container">
           <div className="blog-left">
             <div className="blog-text">
-              <h1 className="blog-title">{post?.title}</h1>
-              <p id="blog-content">{post?.text}</p>
+              <h1 className="blog-title">{decode(post?.title || "")}</h1>
+              <p id="blog-content">{decode(post?.text || "")}</p>
             </div>
 
             <div className="blog-comments">
@@ -207,10 +227,15 @@ function Blog() {
             </div>
           </div>
           <div className="blog-right">
-            <ul className="blog-desc">
-              <li onClick={() => console.log(comments)}>
-                Category: {post?.category}
-              </li>
+            <div className="hamburger-menu" onClick={() => toggleMenu()}>
+              {" "}
+              <div className="burger-line"></div>
+              <div className="burger-line"></div>
+              <div className="burger-line"></div>
+            </div>
+
+            <ul className="menu">
+              <li>Category: {post?.category}</li>
               <li>Published: {newDate(post?.timestamp || "")}</li>
               <li>Article By: {post?.author_id.username}</li>
               <Link to={`/profile/${post?.author_id._id}`}>
@@ -254,23 +279,24 @@ function Blog() {
                       Bookmark Post
                     </li>
                   )}
+                  {commentSubmission ? null : (
+                    <form
+                      className="comment-form"
+                      onSubmit={(e) => formSubmit(e)}
+                    >
+                      <h2>Comment</h2>
 
-                  <form
-                    className="comment-form"
-                    onSubmit={(e) => formSubmit(e)}
-                  >
-                    <h2>Comment</h2>
-
-                    <textarea
-                      className="comment-area"
-                      placeholder="Comment.. (3-100 characters)"
-                      name="text"
-                      id="comment_text"
-                    ></textarea>
-                    <button className="comment-button" type="submit">
-                      Submit
-                    </button>
-                  </form>
+                      <textarea
+                        className="comment-area"
+                        placeholder="Comment.. (3-100 characters)"
+                        name="text"
+                        id="comment_text"
+                      ></textarea>
+                      <button className="comment-button" type="submit">
+                        Submit
+                      </button>
+                    </form>
+                  )}
                 </>
               ) : (
                 <li>Log in to comment/bookmark.</li>
