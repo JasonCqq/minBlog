@@ -32,7 +32,7 @@ function Nav() {
 
   // Check if cookie exists.
   useEffect(() => {
-    axios.get("http://localhost:3000/user/login").then((res) => {
+    axios.get("https://minblog.onrender.com/user/login").then((res) => {
       const data = res.data;
       if (data.success === true) {
         setUser(data.user);
@@ -43,7 +43,7 @@ function Nav() {
   const loginForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3000/user/login", {
+      .post("https://minblog.onrender.com/user/login", {
         username: loginData.username,
         password: loginData.password,
       })
@@ -59,7 +59,7 @@ function Nav() {
 
   const logOut = () => {
     axios
-      .post("http://localhost:3000/user/logout")
+      .post("https://minblog.onrender.com/user/logout")
       .then((res) => {
         const data = res.data;
         if (data.success === true) {

@@ -46,11 +46,11 @@ function Blogs() {
     window.history.replaceState(
       {},
       "",
-      `http://localhost:3006/blogs${currentURL.search}`
+      `https://minblog21715.netlify.app/blogs${currentURL.search}`
     );
 
     axios
-      .get(`http://localhost:3000/api/blogs${currentURL.search}`)
+      .get(`https://minblog.onrender.com/api/blogs${currentURL.search}`)
       .then((res) => {
         const data = res.data;
         if (data) {
@@ -81,7 +81,7 @@ function Blogs() {
     const sortOrder = queryParams.get("sortOrder");
     const sortValue = queryParams.get("sortBy");
 
-    let newLink = `http://localhost:3000/api/blogs?p=${pageQuery}`;
+    let newLink = `https://minblog.onrender.com/api/blogs?p=${pageQuery}`;
 
     // Attach parameters
     if (searchQuery) {
@@ -145,7 +145,7 @@ function Blogs() {
       return;
     }
 
-    let newLink = "http://localhost:3006/blogs?p=0";
+    let newLink = "https://minblog.onrender.com/blogs?p=0";
 
     // Attach parameters
     if (search.query) {

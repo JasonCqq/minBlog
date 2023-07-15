@@ -39,7 +39,7 @@ function Profile() {
 
   // Get Profile Data
   useEffect(() => {
-    axios.get(`http://localhost:3000/user/${id}`).then((res) => {
+    axios.get(`https://minblog.onrender.com/user/${id}`).then((res) => {
       const data = res.data;
       setProfile(data);
       setBlogs(data.blogs);

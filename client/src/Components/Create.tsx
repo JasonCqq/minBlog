@@ -41,7 +41,7 @@ function Create() {
     }
 
     axios
-      .post("http://localhost:3000/post/create", {
+      .post("https://minblog.onrender.com/post/create", {
         title: post.title,
         text: post.text,
         category: post.category,
@@ -51,7 +51,7 @@ function Create() {
       .then((res) => {
         const data = res.data;
         if (data.success === true) {
-          window.location.href = `http://localhost:3006/blog/${data.id}`;
+          window.location.href = `https://minblog21715.netlify.app/blog/${data.id}`;
         }
       })
       .catch((err) => {

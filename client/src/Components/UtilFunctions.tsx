@@ -11,9 +11,9 @@ export function deletePost(id: string, userId: string) {
     return;
   }
 
-  axios.delete(`http://localhost:3000/post/${id}`).then((res) => {
+  axios.delete(`https://minblog.onrender.com/post/${id}`).then((res) => {
     const data = res.data;
     data.error ? alert(data.error) : alert(data.message);
-    window.location.href = `http://localhost:3006/profile/${userId}`;
+    window.location.href = `https://minblog21715.netlify.app/profile/${userId}`;
   });
 }

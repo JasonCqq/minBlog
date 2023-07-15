@@ -49,7 +49,7 @@ function Blog() {
       return;
     }
     axios
-      .get(`http://localhost:3000/post/${id}`)
+      .get(`https://minblog.onrender.com/post/${id}`)
       .then((res) => {
         const data = res.data;
         setPost(data);
@@ -57,7 +57,7 @@ function Blog() {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [id]);
 
   // Check if post already bookmarked.
   useEffect(() => {
@@ -68,13 +68,13 @@ function Blog() {
     const bookmarks = user.bookmarks ?? [];
     const bookmarksSet = new Set(bookmarks);
     bookmarksSet.has(String(id)) ? setBookmarked(true) : setBookmarked(false);
-  }, []);
+  }, [user, id]);
 
   // Fetch comments on click
   useEffect(() => {
     if (drop === true && comments.length === 0) {
       axios
-        .get(`http://localhost:3000/api/comments/${id}`)
+        .get(`https://minblog.onrender.com/api/comments/${id}`)
         .then((res) => {
           const data = res.data;
           setComments(data.comments);
@@ -83,7 +83,7 @@ function Blog() {
           console.error(err);
         });
     }
-  }, [drop]);
+  }, [drop, id, comments]);
 
   function newDate(date: string) {
     const formattedDate = new Date(date).toDateString();
@@ -99,7 +99,7 @@ function Blog() {
       return;
     }
 
-    axios.post("http://localhost:3000/post/comment", {
+    axios.post("https://minblog.onrender.com/post/comment", {
       text: t.value,
       user: user?.id,
       blog_id: id,
@@ -114,12 +114,12 @@ function Blog() {
     }
 
     if (bookmarked) {
-      axios.delete(`http://localhost:3000/user/bookmark/${id}`, {
+      axios.delete(`https://minblog.onrender.com/user/bookmark/${id}`, {
         withCredentials: true,
       });
       setBookmarked(false);
     } else if (!bookmarked) {
-      axios.put(`http://localhost:3000/user/bookmark/${id}`, {
+      axios.put(`https://minblog.onrender.com/user/bookmark/${id}`, {
         withCredentials: true,
       });
       setBookmarked(true);
@@ -130,6 +130,7 @@ function Blog() {
   useEffect(() => {
     applyBionicReading();
   }, [bionicReadMode]);
+
   function applyBionicReading() {
     const text = document.getElementById("blog-content");
     if (!text) {

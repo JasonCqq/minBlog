@@ -44,7 +44,7 @@ function App() {
 
   // Get 6 blogs.
   useEffect(() => {
-    axios.get("http://localhost:3000/api/posts/6").then((res) => {
+    axios.get("https://minblog.onrender.com/api/posts/6").then((res) => {
       const data = res.data;
       setPosts(data.posts);
       setDocs(data.docCount);
@@ -73,7 +73,7 @@ function App() {
     }
 
     axios
-      .post("http://localhost:3000/user/create", {
+      .post("https://minblog.onrender.com/user/create", {
         full_name: signUp.full_name,
         username: signUp.username,
         password: signUp.password,
@@ -86,7 +86,7 @@ function App() {
           // Automatically sign the user in
           setUser(data.user);
           window.location.reload();
-          window.location.href = "http://localhost:3006/blogs?p=0";
+          window.location.href = "https://minblog.onrender.com/blogs?p=0";
         }
         // Error handlings
         setSignUp((prevState) => {

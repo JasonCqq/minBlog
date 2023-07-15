@@ -1,13 +1,12 @@
 require("dotenv").config();
 var createError = require("http-errors");
 var express = require("express");
-var path = require("path");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var cors = require("cors");
 
-const session = require("express-session");
+const session = require("cookie-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
@@ -31,7 +30,7 @@ var app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3006",
+    origin: "https://minblog21715.netlify.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
@@ -39,6 +38,7 @@ app.use(
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Cookies
 app.use(
   session({
     key: "userID",
@@ -51,7 +51,7 @@ app.use(
   }),
 );
 
-//Login
+//Login Authentication
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
@@ -61,10 +61,10 @@ passport.use(
       }
       bcrypt.compare(password, user.password, (err, res) => {
         if (res) {
-          // passwords match! log user in
+          // Passwords match!
           return done(null, user);
         } else {
-          // passwords do not match!
+          // Passwords do not match!
           return done(null, false, { message: "Incorrect password" });
         }
       });

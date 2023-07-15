@@ -27,7 +27,7 @@ function Edit() {
     if (!user) {
       return;
     }
-    axios.get(`http://localhost:3000/post/${id}`).then((res) => {
+    axios.get(`https://minblog.onrender.com/post/${id}`).then((res) => {
       const data = res.data;
       if (String(data.author_id._id) === String(user?.id)) {
         setPost({
@@ -68,7 +68,7 @@ function Edit() {
     }
 
     axios
-      .put(`http://localhost:3000/post/${id}`, {
+      .put(`https://minblog.onrender.com/post/${id}`, {
         title: post.title,
         text: post.text,
         category: post.category,
@@ -76,7 +76,7 @@ function Edit() {
       .then((res) => {
         const data = res.data;
         if (data.success === true) {
-          window.location.href = `http://localhost:3006/blog/${id}`;
+          window.location.href = `https://64b20032b714c2000814547a--velvety-moonbeam-557a11.netlify.app/blog/${id}`;
         }
       })
       .catch((err) => {
