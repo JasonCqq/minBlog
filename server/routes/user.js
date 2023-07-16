@@ -10,9 +10,9 @@ router.post("/create", user_controller.create_user);
 
 router.get("/login", (req, res) => {
   if (req.session.user) {
-    res.send({ success: true, user: req.session.user });
+    res.json({ success: true, user: req.session.user });
   } else {
-    res.send({ success: false });
+    res.json({ success: false, user: null });
   }
 });
 router.post("/login", user_controller.login_user);

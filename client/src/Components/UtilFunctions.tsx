@@ -11,9 +11,9 @@ export function deletePost(id: string, userId: string) {
     return;
   }
 
-  axios.delete(`https://minblog.onrender.com/post/${id}`).then((res) => {
+  axios.delete(`${process.env.REACT_APP_BACK_END}/post/${id}`).then((res) => {
     const data = res.data;
     data.error ? alert(data.error) : alert(data.message);
-    window.location.href = `https://minblog21715.netlify.app/profile/${userId}`;
+    window.location.href = `${process.env.REACT_APP_FRONT_END}/profile/${userId}`;
   });
 }

@@ -44,7 +44,7 @@ function App() {
 
   // Get 6 blogs.
   useEffect(() => {
-    axios.get("https://minblog.onrender.com/api/posts/6").then((res) => {
+    axios.get(`${process.env.REACT_APP_BACK_END}/api/posts/6`).then((res) => {
       const data = res.data;
       setPosts(data.posts);
       setDocs(data.docCount);
@@ -54,7 +54,6 @@ function App() {
   // Submit user signup information
   const formSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (signUp.password.length < 8 || signUp.confirmPassword.length < 8) {
       if (!signUpErrors.includes("Password must be at least 8 Characters")) {
         setSignUpErrors((prevState) => [
@@ -62,8 +61,7 @@ function App() {
           "Password must be at least 8 Characters",
         ]);
       }
-    }
-    if (signUp.password !== signUp.confirmPassword) {
+    } else if (signUp.password !== signUp.confirmPassword) {
       if (!signUpErrors.includes("Passwords do not match")) {
         setSignUpErrors((prevState) => [
           ...prevState,
@@ -73,7 +71,7 @@ function App() {
     }
 
     axios
-      .post("https://minblog.onrender.com/user/create", {
+      .post(`${process.env.REACT_APP_BACK_END}/user/create`, {
         full_name: signUp.full_name,
         username: signUp.username,
         password: signUp.password,
@@ -86,20 +84,18 @@ function App() {
           // Automatically sign the user in
           setUser(data.user);
           window.location.reload();
-          window.location.href = "https://minblog.onrender.com/blogs?p=0";
+          window.location.href = `${process.env.REACT_APP_FRONT_END}/blogs?p=0`;
+        } else if (data.success === false) {
+          // Error handlings
+          setSignUp((prevState) => {
+            return {
+              ...prevState,
+            };
+          });
+          if (!signUpErrors.includes(data.error)) {
+            setSignUpErrors((prevState) => [...prevState, data.error]);
+          }
         }
-        // Error handlings
-        setSignUp((prevState) => {
-          return {
-            ...prevState,
-          };
-        });
-        if (!signUpErrors.includes(data.error)) {
-          setSignUpErrors((prevState) => [...prevState, data.error]);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
       });
   };
 
@@ -173,7 +169,7 @@ function App() {
               ? signUpErrors.map((err) => {
                   return (
                     <div
-                      className="error-container"
+                      key={uniqid()}
                       style={{
                         backgroundColor: "red",
                         color: "white",
@@ -196,7 +192,10 @@ function App() {
 
       <section className="main-blogs">
         <p className="main-blogs-heading">Recent Blogs</p>
-        <Link to="/blogs" className="blogs-item-more">
+        <Link
+          to="/blogs?p=0&sortBy=timestamp&sortOrder=desc"
+          className="blogs-item-more"
+        >
           View {docs} blogs
           <HiArrowSmallRight />
         </Link>

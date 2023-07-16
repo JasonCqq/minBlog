@@ -32,18 +32,24 @@ function Nav() {
 
   // Check if cookie exists.
   useEffect(() => {
-    axios.get("https://minblog.onrender.com/user/login").then((res) => {
-      const data = res.data;
-      if (data.success === true) {
-        setUser(data.user);
-      }
-    });
+    axios
+      .get(`${process.env.REACT_APP_BACK_END}/user/login`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        const data = res.data;
+        if (data.success === true) {
+          setUser(data.user);
+        } else if (data.success === false) {
+          setUser(null);
+        }
+      });
   }, []);
 
   const loginForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
-      .post("https://minblog.onrender.com/user/login", {
+      .post(`${process.env.REACT_APP_BACK_END}/user/login`, {
         username: loginData.username,
         password: loginData.password,
       })
@@ -59,7 +65,7 @@ function Nav() {
 
   const logOut = () => {
     axios
-      .post("https://minblog.onrender.com/user/logout")
+      .post(`${process.env.REACT_APP_BACK_END}/user/logout`)
       .then((res) => {
         const data = res.data;
         if (data.success === true) {
@@ -85,7 +91,10 @@ function Nav() {
           <Link to="/" className="main-ref">
             Home
           </Link>
-          <Link to="/blogs" className="main-ref">
+          <Link
+            to="/blogs?p=0&sortBy=timestamp&sortOrder=desc"
+            className="main-ref"
+          >
             Blogs
           </Link>
           {user ? (

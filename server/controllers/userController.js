@@ -143,11 +143,8 @@ exports.login_user = [
 ];
 
 exports.logout_user = asyncHandler(async (req, res) => {
-  res.clearCookie("userID", {
-    path: "/",
-  });
-  req.session.destroy();
-  return res.json({ success: true });
+  req.session = null;
+  res.send({ success: true, message: "User Session Destroyed" });
 });
 
 exports.add_bookmark = asyncHandler(async (req) => {

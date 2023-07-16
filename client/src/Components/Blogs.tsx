@@ -46,11 +46,11 @@ function Blogs() {
     window.history.replaceState(
       {},
       "",
-      `https://minblog21715.netlify.app/blogs${currentURL.search}`
+      `${process.env.REACT_APP_FRONT_END}/blogs${currentURL.search}`
     );
 
     axios
-      .get(`https://minblog.onrender.com/api/blogs${currentURL.search}`)
+      .get(`${process.env.REACT_APP_BACK_END}/api/blogs${currentURL.search}`)
       .then((res) => {
         const data = res.data;
         if (data) {
@@ -73,25 +73,26 @@ function Blogs() {
   }, [documentCount]);
 
   // Fetch URL based on filter
-  const queryParams = new URLSearchParams(window.location.search);
-  const searchQuery = queryParams.get("query");
   useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const searchQuery = String(queryParams.get("query"));
     const pageQuery = Number(queryParams.get("p"));
-    const queryValue = queryParams.get("queryBy");
-    const sortOrder = queryParams.get("sortOrder");
-    const sortValue = queryParams.get("sortBy");
-
-    let newLink = `https://minblog.onrender.com/api/blogs?p=${pageQuery}`;
+    const queryValue = String(queryParams.get("queryBy"));
+    const sortOrder = String(queryParams.get("sortOrder"));
+    const sortValue = String(queryParams.get("sortBy"));
+    let newLink = `${process.env.REACT_APP_BACK_END}/api/blogs?p=${pageQuery}`;
 
     // Attach parameters
-    if (searchQuery) {
+    if (searchQuery !== null) {
       newLink += `&query=${searchQuery}&queryBy=${queryValue}`;
       const q = document.getElementById("query") as HTMLInputElement;
       q.value = searchQuery;
     }
 
-    if (sortOrder) {
+    if (sortOrder !== null) {
       newLink += `&sortBy=${sortValue}&sortOrder=${sortOrder}`;
+    } else if (sortOrder === null) {
+      newLink += `&sortBy=timestamp&sortOrder=desc`;
     }
 
     axios.get(`${newLink}`).then((res) => {
@@ -102,15 +103,6 @@ function Blogs() {
       }
     });
   }, []);
-
-  // Store filter inputs
-  function handleFilters(e: ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-    setSearch((prevSearch) => ({
-      ...prevSearch,
-      [name]: value,
-    }));
-  }
 
   // Submit search filters
   function filterSubmit(e: FormEvent<HTMLFormElement>) {
@@ -132,7 +124,7 @@ function Blogs() {
       (search.query && !search.query_value) ||
       (!search.query && search.query_value)
     ) {
-      alert("Missing search values");
+      alert("Please input a query or select what you want to search by");
       return;
     }
 
@@ -141,18 +133,18 @@ function Blogs() {
       (search.sort_order && !search.sort_value) ||
       (!search.sort_order && search.sort_value)
     ) {
-      alert("Missing sort values");
+      alert("Please select a query or select what you want to search by");
       return;
     }
 
-    let newLink = "https://minblog.onrender.com/blogs?p=0";
+    let newLink = `${process.env.REACT_APP_FRONT_END}/blogs?p=0`;
 
     // Attach parameters
-    if (search.query) {
+    if (search.query && search.query_value) {
       newLink += `&query=${search.query}&queryBy=${search.query_value}`;
     }
 
-    if (search.sort_order) {
+    if (search.sort_order && search.sort_value) {
       newLink += `&sortBy=${search.sort_value}&sortOrder=${search.sort_order}`;
     }
 
@@ -162,6 +154,15 @@ function Blogs() {
     }
 
     window.location.href = newLink;
+  }
+
+  // Store filter inputs
+  function handleFilters(e: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setSearch((prevSearch) => ({
+      ...prevSearch,
+      [name]: value,
+    }));
   }
 
   function toggleForm() {
@@ -217,12 +218,9 @@ function Blogs() {
             </section>
 
             <HiMiniMagnifyingGlass
-              size={30}
+              size={35}
               style={{
                 cursor: "pointer",
-                position: "fixed",
-                right: "0",
-                marginRight: "5vw",
               }}
               onClick={() => toggleForm()}
             />

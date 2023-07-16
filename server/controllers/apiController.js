@@ -89,7 +89,6 @@ exports.get_blogs = asyncHandler(async (req, res) => {
   } catch (err) {
     console.error(err);
   }
-
   return res.json({ blogs: blogs[0].blogs, docCount: blogs[0].count[0].count });
 });
 

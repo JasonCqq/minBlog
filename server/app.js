@@ -5,8 +5,10 @@ var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var cors = require("cors");
+const mongoose = require("mongoose");
 
-const session = require("cookie-session");
+const cookieSession = require("cookie-session");
+
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
@@ -17,37 +19,40 @@ var userRouter = require("./routes/user");
 var postRouter = require("./routes/post");
 var apiRouter = require("./routes/api");
 
-const mongoose = require("mongoose");
+const mongoDB = process.env.DATABASE_KEY;
+
 mongoose.set("strictQuery", false);
 mongoose.set("debug", true);
-const mongoDB = process.env.DATABASE_KEY;
+
 async function main() {
   await mongoose.connect(`${mongoDB}`);
 }
+
 main().catch((err) => console.log(err));
 
 var app = express();
 
-app.use(
-  cors({
-    origin: "https://minblog21715.netlify.app",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  }),
-);
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Cookies
+// Session
+app.set("trust proxy", 1);
 app.use(
-  session({
-    key: "userID",
-    secret: `${process.env.SECRET_KEY}`,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      expires: 30 * 24 * 60 * 60 * 1000,
-    },
+  cookieSession({
+    name: "session",
+    keys: [`${process.env.SECRET_KEY}`],
+    maxAge: 168 * 60 * 60 * 1000,
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  }),
+);
+
+app.use(
+  cors({
+    origin: `${process.env.FRONT_END}`,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   }),
 );
 
@@ -85,6 +90,7 @@ passport.deserializeUser(async function (id, done) {
     done(err);
   }
 });
+
 app.use(passport.initialize());
 app.use(passport.session());
 

@@ -49,7 +49,7 @@ function Blog() {
       return;
     }
     axios
-      .get(`https://minblog.onrender.com/post/${id}`)
+      .get(`${process.env.REACT_APP_BACK_END}/post/${id}`)
       .then((res) => {
         const data = res.data;
         setPost(data);
@@ -74,7 +74,7 @@ function Blog() {
   useEffect(() => {
     if (drop === true && comments.length === 0) {
       axios
-        .get(`https://minblog.onrender.com/api/comments/${id}`)
+        .get(`${process.env.REACT_APP_BACK_END}/api/comments/${id}`)
         .then((res) => {
           const data = res.data;
           setComments(data.comments);
@@ -99,7 +99,7 @@ function Blog() {
       return;
     }
 
-    axios.post("https://minblog.onrender.com/post/comment", {
+    axios.post(`${process.env.REACT_APP_BACK_END}/post/comment`, {
       text: t.value,
       user: user?.id,
       blog_id: id,
@@ -114,12 +114,12 @@ function Blog() {
     }
 
     if (bookmarked) {
-      axios.delete(`https://minblog.onrender.com/user/bookmark/${id}`, {
+      axios.delete(`${process.env.REACT_APP_BACK_END}/user/bookmark/${id}`, {
         withCredentials: true,
       });
       setBookmarked(false);
     } else if (!bookmarked) {
-      axios.put(`https://minblog.onrender.com/user/bookmark/${id}`, {
+      axios.put(`${process.env.REACT_APP_BACK_END}/user/bookmark/${id}`, {
         withCredentials: true,
       });
       setBookmarked(true);
