@@ -89,6 +89,7 @@ MongoDB - as the database for the project.
    ```sh
    git clone git@github.com:jason21715/minBlog.git
    cd Desktop > cd minBlog
+   * When setting URLs in .env, ensure there are not ending slashes.
    ```
 2. Setup Backend
    ```sh
@@ -96,7 +97,8 @@ MongoDB - as the database for the project.
    npm install
    Add .env file: {
     SECRET_KEY: (Key for cookie session)
-    DATABASE_KEY: (Database Connection String)    
+    DATABASE_KEY: (Database Connection String)
+    FRONT_END: (React App Address eg. http://localhost:3006)    
     *Change CORS origin in app.js to Front-End Address.
     }
     npm run devstart
@@ -105,8 +107,10 @@ MongoDB - as the database for the project.
    ```js
       cd Desktop > cd minBlog > cd client
       npm install
-      Change all fetch address to back-end address.
-      Change all href address to front-end address.
+      Add .env file: {
+        REACT_APP_FRONT_END: (React App Address eg. http://localhost:3006)    
+        REACT_APP_BACK_END: (Server Address, eg. http://localhost:3000)
+      }
       npm start
    ```
 
